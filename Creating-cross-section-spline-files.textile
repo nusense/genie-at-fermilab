@@ -207,8 +207,9 @@ $ /grid/fermiapp/nusoft/generate_genie_xsec/prepare.sh -h
 
 h1. Using spline file from a  UPS product
 
-[[UPS products genie phyopt and genie_xsec#setup genie_xsec|setting up genie_xsec]]
+"setup genie_xsec":UPS-products-genie_phyopt-and-genie_xsec.textile#setup-genie_xsec
 
 h1. Making a UPS product out of the spline files
 
-[[UPS products genie phyopt and genie_xsec#install new genie_xsec|install new genie_xsec]]
+"install new genie_xsec":UPS-products-genie_phyopt-and-genie_xsec.textile#install-new-genie_xsec
+

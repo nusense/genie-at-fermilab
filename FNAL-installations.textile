@@ -11,7 +11,7 @@ NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed
    ups setup genie v2_8_0 -q e2:debug
 </pre>
 
-The GENIE product by itself isn&#39;t sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying [[UPS_products_genie_phyopt_and_genie_xsec|UPS products to supply cross-sections and tweak the physics options]]
+The GENIE product by itself isn&#39;t sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
 
 h2.  What versions are available
 
@@ -92,4 +92,4 @@ which will also setup the @/nusoft/app/externals@ UPS products area as well.
 
 h1. Doing it on your own
 
-Generally users should employ existing installations in UPS.  Support for individual non-standard installations will be a low priority.  But if you insist, so [[Building GENIE on your own|these minimal instructions]] might help.
+Generally users should employ existing installations in UPS.  Support for individual non-standard installations will be a low priority.  But if you insist, so "Building GENIE on your own with these minimal instructions":Building-GENIE-on-your-own.textile might help.

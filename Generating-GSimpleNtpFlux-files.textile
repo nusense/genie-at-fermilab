@@ -15,7 +15,7 @@ h2. Translating a _flux_ file using @GNuMIFlux@
 
 Files suitable for use by @GSimpleNtpFlux@ are generally created by sampling a @flugg@ or @g4numi@ (soon to include @dk2nu@) file at a particular location using the flux driver for those file and writing the result into the few format.
 
-See the attached gnumi2simple_basic.C script attached to this page.
+See the code_samples/gnumi2simple_basic.C script.
 
 h2. Doing it on your own
 
@@ -236,7 +236,7 @@ $ grep "param_set name" $GENIE/config/GNuMIFlux.xml
   <param_set name="LBNE-FarDet_01">
 </pre>
 
-The form of these parameter sets is describe on the wiki page [[GNuMIFlux_code_and_config]]
+The form of these parameter sets is describe on the wiki page "GNuMIFlux_code_and_config":GNuMIFlux-code-and-config.textile
 
 If the "requst" file contain a line:
 <pre>

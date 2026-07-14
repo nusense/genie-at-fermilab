@@ -85,4 +85,4 @@ NOTE: Some details may be somewhat out of date as a result of updates implemente
 h2. Legacy Materials
 
 * Meetings
-*** [[AVS - April 2, 2015]]
+*** "AVS - April 2, 2015":AVS-April-2-2015.textile
