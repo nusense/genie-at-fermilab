@@ -1,2 +1,48 @@
+h1. What's the difference between gsimple and dk2nu (g4numi) fluxes 
 
-h1. What&amp;
+
+* dk2nu - the format that comes out of the current beamline simulation
+**  entries have ability to be reweighted for any position relative to the beamline
+***  (i.e. usable for both near & far det)
+** also contain particle history from proton-on-target to actual decay that yields a neutrino.
+* g4numi - the precursor to dk2nu (not sure any modern flux files should still be in this format)
+* gsimple - a very simplified format
+** basically “rays” :=  {pdg_flavor, p4, x4, (possible weight)}
+
+The are many ways one could generate a gsimple file, but the most common is to use the GENIE dk2nu flux “driver” and write down the intermediate entries that would have been handed off to the geometry, etc if the flux driver was being run in event generation.  The rationale for doing this is that the dk2nu deweighting (importance weight + calculating a weight based on position of the ray relative to a detector geometry) is _expensive_.
+
+So if one does this as a separate step these “rays” can be re-used without that overhead.  There’s some tradeoffs, of course, (mostly cpu vs. disk space).  One must generate a big enough sample of gsimple that rays aren’t re-used “too often”.  But even if the same ray is used (infrequently) it might not be chosen, if chosen it will put the vertex somewhere else along the path, and even if the new vertex is close to another case for the same ray, the event kinematics (QE/CC/RES, x, y, q^2, …) are going to be different.
+
+The drawback with gsimple is that it “bakes in” a choice for flux window and beam-to-detector transformation.  So such files are only useful for the same detector (and even then rock fluxes have a wider window than one would use for detector only case due to efficiency issues).
+
+---
+
+2nu- the output of the beamline simulation.  this records information about the particle that decays to yield a neutrino.   That particle might have an assigned importance weight (depending on rejection during propagation of particle through the beamline), and enough information about the decaying particle to calculate the energy and probability of that neutrino going through any point in space.  The dk2nu files also have some additional information for advanced usage.
+gsimple - is a "simple" format (losing a bunch of information irrelevant for actual event generation).   This is basically "writing down" the information that comes out of the dk2nu flux driver that one would run within GENIE -- capturing the "rays" {nu_pdg, 4-position, 4-momentum}  before GENIE would run them through the geometry.  The entries aren't reweightable like those of dk2nu but represent fixed instances of "rays".   They're only good for that flux window and beam-to-detector coordinate transformation.  The reason for doing this is that computing these rays involved de-weighing the dk2nu entries (and rejecting a bunch of them) and so is computationally expensive.  So if you write down these (and don't need the additional info that is part of the dk2nu entry such as the history from the impinging proton to the actual particle that decays) then event generation become less expensive.  Basically you're winning because you can reused gsimple file entries at much lower cost within a job and between jobs at the cost of potentially using the same "ray" more than once (though that just means it will have a vertex somewhere else along the ray's direction, event kinematics are going to be independent).
+(edited)
+4:00
+The cost of de-weighting dk2nu files (significantly) increases as you go off-axis.  There is nothing stopping someone from generating off-axis gsimple files .... except the cost of storage (vs. cpu of generating the rays each job).
+
+Thanks @nusense. The reason why we changed to using dk2nu for the off-axis production is mostly to avoid the book-keeping of having a bunch of different gsimple files in different flux windows, so that we could be confident we did not make mistakes.  But if we made a flux window that is big enough to include the entire target volume, is there any difference at all in the output if we were to run gsimple on-axis instead? The required on-axis POT is much higher, so this would save some time.
+4:06
+Basically if we POT normalized everything and plotted the event rate vs x, we should see a perfectly smooth curve?
+
+nusense:house_with_garden:  4:21 PM
+Alas, there's a trade-off when the window gets big ... it's nice to have it all integrated, ... but it becomes extremely inefficient vs. separate sets of files with different adjacent flux windows.   This is because it picks the point on the window uniformly and then calculates the weight/probability of going through that point.  As the window gets bigger the range of weights generated gets bigger and thus lots more get rejected against the "estimated maximum weight" (drawback of the rejection method)
+Any given job should not use gsimple files generated with different parameters (flux window, coordinate transformation, or POTs per gsimple file) because this screws up the POT accounting for reasons I just can not understand.  :man-shrugging:
+But if I understand what you'all have been doing, you have run with the detector at position A, B, C each with it's relevant geometry and dk2nu parameters (flux window position, beam-to-detector coordinate transformation) A_flux_param, B_flux_param, C_flux_param.   So you could generate sets of gsimple files corresponding to each of those flux parameters; then use those for the corresponding runs.  It's trading splitting out the gsimple flux file generation and storage and bookkeeping vs. CPU time.
+Like I said, gsimple files are just writing down what would have been fed to GENIE event generation and saving it for later (re)use.
+
+---
+
+First,  you're apparently aware of using flux histograms to define the energy spectrum to GENIE.  While this is "easy", it's often incorrect enough to matter.  That is because the flux spectrum changes as one moves off-axis (i.e. the whole reason for PRISM).  Histograms don't carry the energy-position correlations necessary and so use a uniform spectrum everywhere in a cyclinder along the beam axis.  The "histogram" flux is also alway exactly parallel to the beam axis with no divergence or angular spread.
+What comes out of the complete beamline simulation isn't really flux, per se, but rather a list of hadrons & muons that decay (and their position, momentum, etc).  The simulation could have imposed importance weights to those based on throwing away some number of common cases (e.g. low energy pions) which then give an non-unity weight to the similar entries that are retained.  The files of this form are called dk2nu (i.e. particles that decay to neutrinos). From the decay info one can calculate the probability that the decaying particle in that location, going in some direction will yield a neutrino passing through any point in space.   There is code that interfaces between these files and supplying flux to GENIE.  This "driver" code performs the re-weighting (importance, and position weighting) to give a stream of "rays"  (neutrinos flavor, starting position, 4-momentum) and keeps track of what that represent in protons-on-target.
+The driver needs some external info, such as the relative coordinate transformation from the beamline system to the detector system, and a definition of the "window" over which to place the starting rays.   This driver can be run as part of GENIE event production (in which case one is feeding dk2nu entries directly to GENIE, or it can be run stand-alone where the "rays" are written down in an intermediate format generally referred to as gsimple files.  The tradeoff here is that the reweighting is very inefficient as the flux window gets big and off-axis, so sometimes it's better to run that bit once, generate gsimple files and then do GENIE production from those.   The drawback is the the gsimple file format is meant to be simple and thus doesn't retain some of the "interesting" information that is within the dk2nu file (such as the ancestor history between the proton-on-target and where subsequent particles might have gone or re-interacted, before ending at the point of decay).
+If gsimple files exist with the appropriate flux window and coordinate transformation then it's much more CPU efficient to use those -- as long as you don't need that other info.
+Second, here's some info about running gevgen_fnal with either the gsimple or dk2nu flux files:
+https://cdcvs.fnal.gov/redmine/projects/genie/wiki/Running_gevgen_fnal (edited) 
+
+---
+
+
+
