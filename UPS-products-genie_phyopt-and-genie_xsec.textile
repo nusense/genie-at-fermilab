@@ -41,46 +41,45 @@ a smaller uncompressed file, e.g. @gxspl-FNALsmall.xml@; @GENIEXSECFILE@ points 
 The current list of isotopes for which splines are generate is (symbol : name, Z, [ A1, A2, ...]):
 
 bc.  ionlist = {
-    &#39;H&#39;  : [&#39;hydrogen&#39;,    1, [ 1, 2 ]],  # don&#39;t duplicate free proton?
-    &#39;He&#39; : [&#39;helium&#39;,      2, [ 4 ]],   # skip 3
-    &#39;Be&#39; : [&#39;beryllium&#39;,   4, [ 9 ]],  # only v2.8.6a and beyond
-    &#39;B&#39;  : [&#39;boron&#39;,       5, [ 10, 11 ]],
-    &#39;C&#39;  : [&#39;carbon&#39;,      6, [ 12, 13 ]],
-    &#39;N&#39;  : [&#39;nitrogen&#39;,    7, [ 14, 15 ]],
-    &#39;O&#39;  : [&#39;oxygen&#39;,      8, [ 16, 17, 18 ]],
-    &#39;F&#39;  : [&#39;fluorine&#39;,    9, [ 19 ]],
-    &#39;Na&#39; : [&#39;sodium&#39;,     11, [ 23 ]],
-    &#39;Mg&#39; : [&#39;magnesium&#39;,  12, [ 24, 25, 26 ]],
-    &#39;Al&#39; : [&#39;aluminum&#39;,   13, [ 27 ]],
-    &#39;Si&#39; : [&#39;silicon&#39;,    14, [ 28, 29, 30 ]],
-    &#39;P&#39;  : [&#39;phosphorus&#39;, 15, [ 31 ]],
-    &#39;S&#39;  : [&#39;sulfur&#39;,     16, [ 32, 33, 34 ]],  # skip 36
-    &#39;Cl&#39; : [&#39;chlorine&#39;,   17, [ 35, 36, 37 ]],
-    &#39;Ar&#39; : [&#39;argon&#39;,      18, [ 36, 38, 39, 40 ]],
-    &#39;K&#39;  : [&#39;potassium&#39;,  19, [ 39, 40, 41 ]],
-    &#39;Ca&#39; : [&#39;calcium&#39;,    20, [ 40, 41, 42, 43, 44 ]], # skip 46, 48
-    &#39;Ti&#39; : [&#39;titanium&#39;,   22, [ 46, 47, 48, 49, 50 ]],
-    &#39;V&#39;  : [&#39;vanadium&#39;,   23, [ 50, 51 ]],
-    &#39;Cr&#39; : [&#39;chromium&#39;,   24, [ 50, 51, 52, 53, 54 ]],
-    &#39;Mn&#39; : [&#39;manganese&#39;,  25, [ 55 ]],
-    &#39;Fe&#39; : [&#39;iron&#39;,       26, [ 54, 56, 57, 58 ]],
-    &#39;Co&#39; : [&#39;cobalt&#39;,     27, [ 59 ]],
-    &#39;Ni&#39; : [&#39;nickel&#39;,     28, [ 58, 59, 60, 61, 62, 64 ]],
-    &#39;Cu&#39; : [&#39;copper&#39;,     29, [ 63, 64, 65 ]],
-    &#39;Zn&#39; : [&#39;zinc&#39;,       30, [ 64, 65, 66, 67, 68, 70 ]],
-    &#39;Br&#39; : [&#39;bromine&#39;,    35, [ 79, 80, 81 ]],
-    &#39;Sn&#39; : [&#39;tin&#39;,        50, [ 116, 117,  # skip 112, 114, 115, 122, 124
+    'H'  : ['hydrogen',    1, [ 1, 2 ]],  # don't duplicate free proton?
+    'He' : ['helium',      2, [ 4 ]],   # skip 3
+    'Be' : ['beryllium',   4, [ 9 ]],  # only v2.8.6a and beyond
+    'B'  : ['boron',       5, [ 10, 11 ]],
+    'C'  : ['carbon',      6, [ 12, 13 ]],
+    'N'  : ['nitrogen',    7, [ 14, 15 ]],
+    'O'  : ['oxygen',      8, [ 16, 17, 18 ]],
+    'F'  : ['fluorine',    9, [ 19 ]],
+    'Na' : ['sodium',     11, [ 23 ]],
+    'Mg' : ['magnesium',  12, [ 24, 25, 26 ]],
+    'Al' : ['aluminum',   13, [ 27 ]],
+    'Si' : ['silicon',    14, [ 28, 29, 30 ]],
+    'P'  : ['phosphorus', 15, [ 31 ]],
+    'S'  : ['sulfur',     16, [ 32, 33, 34 ]],  # skip 36
+    'Cl' : ['chlorine',   17, [ 35, 36, 37 ]],
+    'Ar' : ['argon',      18, [ 36, 38, 39, 40 ]],
+    'K'  : ['potassium',  19, [ 39, 40, 41 ]],
+    'Ca' : ['calcium',    20, [ 40, 41, 42, 43, 44 ]], # skip 46, 48
+    'Ti' : ['titanium',   22, [ 46, 47, 48, 49, 50 ]],
+    'V'  : ['vanadium',   23, [ 50, 51 ]],
+    'Cr' : ['chromium',   24, [ 50, 51, 52, 53, 54 ]],
+    'Mn' : ['manganese',  25, [ 55 ]],
+    'Fe' : ['iron',       26, [ 54, 56, 57, 58 ]],
+    'Co' : ['cobalt',     27, [ 59 ]],
+    'Ni' : ['nickel',     28, [ 58, 59, 60, 61, 62, 64 ]],
+    'Cu' : ['copper',     29, [ 63, 64, 65 ]],
+    'Zn' : ['zinc',       30, [ 64, 65, 66, 67, 68, 70 ]],
+    'Br' : ['bromine',    35, [ 79, 80, 81 ]],
+    'Sn' : ['tin',        50, [ 116, 117,  # skip 112, 114, 115, 122, 124
                                 118, 119, 120 ]],
-    &#39;Ba&#39; : [&#39;barium&#39;,     56, [ 130, 132, 134, 135, 136, 137, 138 ]],
-    &#39;Gd&#39; : [&#39;gadolinium&#39;, 64, [ 152, 154, 155, 156, 157, 158, 160 ]],  # only R-2_9_0 and beyond
-    &#39;Pb&#39; : [&#39;lead&#39;,       82, [ 204, 206, 207, 208 ]]
+    'Ba' : ['barium',     56, [ 130, 132, 134, 135, 136, 137, 138 ]],
+    'Gd' : ['gadolinium', 64, [ 152, 154, 155, 156, 157, 158, 160 ]],  # only R-2_9_0 and beyond
+    'Pb' : ['lead',       82, [ 204, 206, 207, 208 ]]
     }
 
 But those only exist in the @$GENIEXSECPATH/gxspl-FNALbig.xml.bz2@ (but would need to be uncompressed for GENIE to read them.  
 The @gxspl-FNALsmall.xml@ file pointed to by @$GENIEXSECFILE@ only has:
 
-<pre>
-  tgtkeep[1000000010] = 1;  # free-n
+bc.  tgtkeep[1000000010] = 1;  # free-n
   tgtkeep[1000010010] = 1;  # H1
   tgtkeep[1000020040] = 1;  # He4
   tgtkeep[1000040090] = 1;  # Be9  # only v2.8.6a and beyond
@@ -111,19 +110,18 @@ The @gxspl-FNALsmall.xml@ file pointed to by @$GENIEXSECFILE@ only has:
   tgtkeep[1000561370] = 1;  # Ba137
   tgtkeep[1000641480] = 1;  # Gd158  # only R-2_9_0 and beyond
   tgtkeep[1000822070] = 1;  # Pb207
-</pre>
 
 h3. Identifying missing isotopes
 
 Any geometry with isotopes not found in the supplied spline file eventually fail with a message similar to:
 <pre>
-1436895706 WARN GEVGDriver : [n] <GEVGDriver.cxx::UseSplines (602)> : *** At least a spline (algorithm: genie::LwlynSmithQELCCPXSec/Default, interaction: nu:12;tgt:1000160310;N:2112;proc:Weak[CC],QES; doesn&#39;t exist. Reverting back to not using splines
+1436895706 WARN GEVGDriver : [n] <GEVGDriver.cxx::UseSplines (602)> : *** At least a spline (algorithm: genie::LwlynSmithQELCCPXSec/Default, interaction: nu:12;tgt:1000160310;N:2112;proc:Weak[CC],QES; doesn't exist. Reverting back to not using splines
 ...
-1436895710 FATAL GEVGDriver : [n] <GEVGDriver.cxx::CreateXSecSumSpline (490)> : You haven&#39;t loaded any splines!!
-lar: GEVGDriver.cxx:492: void genie::GEVGDriver::CreateXSecSumSpline(int, double, double, bool): Assertion `fUseSplines&#39; failed.
+1436895710 FATAL GEVGDriver : [n] <GEVGDriver.cxx::CreateXSecSumSpline (490)> : You haven't loaded any splines!!
+lar: GEVGDriver.cxx:492: void genie::GEVGDriver::CreateXSecSumSpline(int, double, double, bool): Assertion `fUseSplines' failed.
 </pre>
 
-The @nu:12;tgt:1000160310;@ identifies what combination of probe and target couldn&#39;t be found in the spline file.  In this case, &amp;nu; ~&amp;mu;~ off of (Z=16,A=31), an isotope of sulfur with a half-life of 2.572 seconds.
+The @nu:12;tgt:1000160310;@ identifies what combination of probe and target couldn't be found in the spline file.  In this case, &amp;nu; ~&amp;mu;~ off of (Z=16,A=31), an isotope of sulfur with a half-life of 2.572 seconds.
 
 ----
 
@@ -183,4 +181,4 @@ cd /path/to/spline/files/subdir
 cp -va * $GENIEXSECPATH
 </pre>
 
-Generating the actual spline files requires running on the grid (and, thus, probably can&#39;t  done as the @nusoft@ account).  Instructions can be found at "Creating cross-section spline files":Creating-cross-section-spline-files.textile
+Generating the actual spline files requires running on the grid (and, thus, probably can't  done as the @nusoft@ account).  Instructions can be found at "Creating cross-section spline files":Creating-cross-section-spline-files.textile
