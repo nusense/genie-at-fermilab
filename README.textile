@@ -72,7 +72,7 @@ h2. [[Considerations When Generating Rock Events]]
 
 h1. Common questions
 
-h2. [[What&#39;s the difference between gsimple and dk2nu (g4numi) fluxes ]]  
+h2. "What&#39;s the difference between gsimple and dk2nu (g4numi) fluxes":What&#39;s-the-difference-between-gsimple-and-dk2nu-(g4numi)-fluxes
 
 h2. [[Getting a AR23_20j tune when I only have a AR23_20i one]]
 
