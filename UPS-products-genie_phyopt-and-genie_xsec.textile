@@ -134,8 +134,8 @@ For both sets of instructions you must log into a machine as @nusoft@; that mach
 h2. install new @genie_phyopt@
 
 As @nusoft@:
-<pre>
-source /nusoft/app/externals/setup
+
+bc..source /nusoft/app/externals/setup
 
 # GENIE version and qualifier needed for setup
 GVER=v3470
@@ -151,9 +151,7 @@ setup genie_phyopt $GVER -q $POQUAL
 cd $GENIEPHYOPTPATH
 ./make_dkcharmtau_phyopt
 
-</pre>
-
-If other parameters are being modified then it should start by initializing the package with a qualifier other than @dkcharmtau@, but running the@make_dkcharmtau_phyopt@ script as a base (if have GENIE do the decays is the desired behaviour). 
+p. If other parameters are being modified then it should start by initializing the package with a qualifier other than @dkcharmtau@, but running the@make_dkcharmtau_phyopt@ script as a base (if have GENIE do the decays is the desired behaviour). 
 
 
 h2. install new @genie_xsec@
