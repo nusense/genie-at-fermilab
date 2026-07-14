@@ -6,10 +6,9 @@ h1. Common FNAL Installations
 Most FNAL experiments have an installation of GENIE associated with their code releases.  This allows for a consistent build of their own code, any framework they depend on and GENIE.  By using "UPS":http://www.fnal.gov/docs/products/ups/ dependencies between products can be accounted for.
 
 NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed on a shared BlueArc disk:  @/nusoft/app@.   To setup GENIE without reference to any particular experiment one can use:
-<pre>
-   source /nusoft/app/externals/setup
+
+bc.   source /nusoft/app/externals/setup
    ups setup genie v2_8_0 -q e2:debug
-</pre>
 
 The GENIE product by itself isn&#39;t sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
 
@@ -17,14 +16,11 @@ h2.  What versions are available
 
 To see what releases are available use:
 
-<pre>
-   ups list -aK+ genie
-</pre>
+bc.   ups list -aK+ genie
 
 which results in a list similar to:
 
-<pre>
-"genie" "R-2_6_4" "Linux64bit+2.6-2.5" "debug:e2" "" 
+bc. "genie" "R-2_6_4" "Linux64bit+2.6-2.5" "debug:e2" "" 
 "genie" "R-2_6_6" "Linux64bit+2.6-2.5" "debug:e2" "" 
 "genie" "v2_8_0" "Linux64bit+2.6-2.5" "debug:e2" "" 
 "genie" "v2_8_0" "Linux64bit+2.6-2.5" "e2:prof" "" 
@@ -44,13 +40,10 @@ which results in a list similar to:
 "genie" "v3665b" "Linux64bit+2.6-2.5" "e2:prof" "" 
 "genie" "v3665c" "Linux64bit+2.6-2.5" "debug:e2" "" 
 "genie" "v3665c" "Linux64bit+2.6-2.5" "e2:prof" "" 
-</pre>
 
 h2.  UPS dependencies
 
-<pre>
-   ups depend genie v2_8_0 -q e2:debug
-</pre>
+bc.    ups depend genie v2_8_0 -q e2:debug
 
 shows the dependency tree:
 
@@ -83,9 +76,7 @@ h1. Experimental Releases
 
 On occasion there is a need to have a non-official UPS products; sometimes these are used for pre-release tests or to have a build from whence to generate cross-section splines (before the official build is available).  These will be put in @/nusoft/app/alt@
 
-<pre>
-  source /nusoft/app/alt/setup.sh
-</pre>
+bc.   source /nusoft/app/alt/setup.sh
 
 which will also setup the @/nusoft/app/externals@ UPS products area as well.
 

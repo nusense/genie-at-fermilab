@@ -8,10 +8,10 @@ h2. setup @genie_phyopt@
 This UPS product provides a standardized way of packaging an alternative @UserPhysicsOptions.xml@ file to the default found in @$GENIE/config@.
 
 the basic thought is users (or expts) would invoke:
-<pre>
-  setup genie <version> -q <qualifier>
+
+bc.  setup genie <version> -q <qualifier>
   setup genie_phyopt <version> -q dkcharmtau
-</pre>
+
 which would put in the @$GXMLPATH@ a @UserPhysicsOptions.xml@ file that has been modified to have GENIE decay charm and tau particles
 before they are passed out (i.e. decays are done at the genie stage rather than, say, Geant4).  Only one @UserPhysicsOptions.xml@ file 
 is read for any genie session, so picking the right one is *important*. 
@@ -21,10 +21,9 @@ h2. setup @genie_xsec@
 This UPS product provides a standardized way of packaging genie cross-section spline files.
 
 the basic thought is users (or expts) would invoke:
-<pre>
-  setup genie <version> -q <qualifier>
+
+bc.  setup genie <version> -q <qualifier>
   setup genie_xsec <version> -q default
-</pre>
 
 h3. Allowable isotopes
 
@@ -114,12 +113,12 @@ bc.  tgtkeep[1000000010] = 1;  # free-n
 h3. Identifying missing isotopes
 
 Any geometry with isotopes not found in the supplied spline file eventually fail with a message similar to:
-<pre>
-1436895706 WARN GEVGDriver : [n] <GEVGDriver.cxx::UseSplines (602)> : *** At least a spline (algorithm: genie::LwlynSmithQELCCPXSec/Default, interaction: nu:12;tgt:1000160310;N:2112;proc:Weak[CC],QES; doesn't exist. Reverting back to not using splines
+
+bc. 1436895706 WARN GEVGDriver : [n] <GEVGDriver.cxx::UseSplines (602)> : *** At least a spline (algorithm: genie::LwlynSmithQELCCPXSec/Default, interaction: nu:12;tgt:1000160310;N:2112;proc:Weak[CC],QES; doesn't exist. Reverting back to not using splines
 ...
 1436895710 FATAL GEVGDriver : [n] <GEVGDriver.cxx::CreateXSecSumSpline (490)> : You haven't loaded any splines!!
 lar: GEVGDriver.cxx:492: void genie::GEVGDriver::CreateXSecSumSpline(int, double, double, bool): Assertion `fUseSplines' failed.
-</pre>
+
 
 The @nu:12;tgt:1000160310;@ identifies what combination of probe and target couldn't be found in the spline file.  In this case, &amp;nu; ~&amp;mu;~ off of (Z=16,A=31), an isotope of sulfur with a half-life of 2.572 seconds.
 
