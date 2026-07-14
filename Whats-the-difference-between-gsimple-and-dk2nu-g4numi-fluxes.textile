@@ -40,7 +40,7 @@ What comes out of the complete beamline simulation isn't really flux, per se, bu
 The driver needs some external info, such as the relative coordinate transformation from the beamline system to the detector system, and a definition of the "window" over which to place the starting rays.   This driver can be run as part of GENIE event production (in which case one is feeding dk2nu entries directly to GENIE, or it can be run stand-alone where the "rays" are written down in an intermediate format generally referred to as gsimple files.  The tradeoff here is that the reweighting is very inefficient as the flux window gets big and off-axis, so sometimes it's better to run that bit once, generate gsimple files and then do GENIE production from those.   The drawback is the the gsimple file format is meant to be simple and thus doesn't retain some of the "interesting" information that is within the dk2nu file (such as the ancestor history between the proton-on-target and where subsequent particles might have gone or re-interacted, before ending at the point of decay).
 If gsimple files exist with the appropriate flux window and coordinate transformation then it's much more CPU efficient to use those -- as long as you don't need that other info.
 Second, here's some info about running gevgen_fnal with either the gsimple or dk2nu flux files:
-"Running_gevgen_fnal":running-gevgen_fnal.textile
+"Running_gevgen_fnal":Running-gevgen_fnal.textile
 
 
 ---
