@@ -39,7 +39,8 @@ The default UPS sets contain a large compressed file @gxspl-FNALbig.xml.bz2@ (or
 a smaller uncompressed file, e.g. @gxspl-FNALsmall.xml@; @GENIEXSECFILE@ points to the later.
 
 The current list of isotopes for which splines are generate is (symbol : name, Z, [ A1, A2, ...]):
-<pre>
+
+bc[style="line-height: 0.9;"]..
 ionlist = {
     &#39;H&#39;  : [&#39;hydrogen&#39;,    1, [ 1, 2 ]],  # don&#39;t duplicate free proton?
     &#39;He&#39; : [&#39;helium&#39;,      2, [ 4 ]],   # skip 3
@@ -75,7 +76,6 @@ ionlist = {
     &#39;Gd&#39; : [&#39;gadolinium&#39;, 64, [ 152, 154, 155, 156, 157, 158, 160 ]],  # only R-2_9_0 and beyond
     &#39;Pb&#39; : [&#39;lead&#39;,       82, [ 204, 206, 207, 208 ]]
     }
-</pre>
 
 But those only exist in the @$GENIEXSECPATH/gxspl-FNALbig.xml.bz2@ (but would need to be uncompressed for GENIE to read them.  
 The @gxspl-FNALsmall.xml@ file pointed to by @$GENIEXSECFILE@ only has:
