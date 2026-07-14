@@ -135,7 +135,7 @@ h2. install new @genie_phyopt@
 
 As @nusoft@:
 
-bc..source /nusoft/app/externals/setup
+bc.. source /nusoft/app/externals/setup
 
 # GENIE version and qualifier needed for setup
 GVER=v3470
@@ -157,8 +157,8 @@ p. If other parameters are being modified then it should start by initializing t
 h2. install new @genie_xsec@
 
 As @nusoft@:
-<pre>
-source /nusoft/app/externals/setup
+
+bc.. source /nusoft/app/externals/setup
 
 # GENIE version and qualifier needed for setup
 GVER=v3470
@@ -177,6 +177,5 @@ pwd
 [...populate with spline files ...]
 cd /path/to/spline/files/subdir
 cp -va * $GENIEXSECPATH
-</pre>
 
-Generating the actual spline files requires running on the grid (and, thus, probably can't  done as the @nusoft@ account).  Instructions can be found at "Creating cross-section spline files":Creating-cross-section-spline-files.textile
+p. Generating the actual spline files requires running on the grid (and, thus, probably can't  done as the @nusoft@ account).  Instructions can be found at "Creating cross-section spline files":Creating-cross-section-spline-files.textile
