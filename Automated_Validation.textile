@@ -1,0 +1,88 @@
+
+h1. GENIE AVS CI - Automated Validation
+
+h2. General Information
+
+GENIE AVS CI is GENIE Automated Validation Suite combined with the "Continuous Integration (CI) services":https://cdcvs.fnal.gov/redmine/projects/ci.
+
+The purpose of GENIE Validation Suite is to monitor, throughout the development process, the state of the GENIE core code and the evolution of the GENIE physics models, through the benchmark of the simulated results vs selected experimental data. 
+
+The same procedure and set of software tools is used to validate public GENIE releases (the latest release is R-3_00_02).
+
+It is also being considered how to share with the users community appropriate results from GENIE benchmark vs experimental experimental data, for public GENIE releases.
+Currently we offer, through "DoSSiER":https://g4devel.fnal.gov:8181/DoSSiER repository, a small prototype that illustrate the "benchmark of GENIE simulated results vs selected MINERvA data.":https://g4devel.fnal.gov:8181/DoSSiER/SelectGENIETest.xhtml
+Please click on the "100000" identifier in the left column of the table to go to the results display.
+Included simulated results are from releases R-2_12_10, R-3_00_00, and R-3_00_02, for tunes G00_00a_00_000, G18_02a_00_000, G18_02a_02_11a, and G18_10j_00_000, as applicable.
+
+Several tops on navigating DoSSiER/GENIE-MINERvA validation results display are offered later in this document.
+
+h2. Overview of GENIE AVS CI
+
+The procedure can be subdivided into 2 categories:
+* GENIE CI build(s) "on commit"
+** Triggered every time when new code is committed (to GitHib) to either Generator, Reweighs, or Comparisons package (given 20min wait time, to allow consolidation of multiple commits within a short time frame)
+** Includes the followjng steps:
+*** Checkout from GitHub
+*** Build of all 3 packages
+*** Execution of Unit Tests
+*** "Operational" test which includes 
+a) generation of minimalistic cross section splines for the CCQE process 
+b) generation of 5 CCQE events using splines generated in a) 
+both are done for the Default tune   
+* GENIE Validation workflow is triggered weekly (on Friday&#39;s)
+** GENIE build, Unit Tests, and "operational" test,  as described above
+** Benchmark of GENIE generated predictions vs a variety of experimental datasets; the list of benchmarks can be found "here":https://cdcvs.fnal.gov/redmine/projects/genie_ci/wiki/grid_phase
+
+Results are reported to the dedicated "GENIEMC Slack channel":https://geniemc.slack.com/messages/C50RB57JS/convo/GA63C15T7-1539263877.000100/ (password may be needed)
+Each report includes link(s) to the "GENIE CI dashboard":http://genie-ci-history.fnal.gov/GenieCI/app/view_builds/index for further details (log files, plot books, etc.)
+
+Various technical details can also be found in the presentation at the GENIE meetings; see later in this document.
+
+h2. Some Tips on Interpreting GENIE CI Dashboard
+
+Each raw on the "GENIE CI dashboard":http://genie-ci-history.fnal.gov/GenieCI/app/view_builds/index corresponds to a separate workflow.
+Obviously, the workflows are shorter for the "on commit" builds and longer for the full blown GENIE AVS rounds.
+
+On the dashboard this is reflected wit the addition of the following: 
+* "setup_validation" section - preparation of the storage area in dCache, generation of job configuration files, etc. 
+* one or several "ci_validation_<TuneID> sections (e.g. ci_validation_G18_02a_00_000, etc.)
+
+Each ci_validation_<TuneID> section is a folder on its own.
+If one clicks on it, one will be redirected to another monitoring board that corresponds to the validation of a given GENIE tune.
+Such validation procedure consists of multiple steps and includes generation of neutrino-nucleon, then neutrino-nucleus splines, generation of GENIE event files for various MC-data benchmarks, 
+and the MC-data benchmarks themselves.
+They are named as dag_<NN>, where NN is the serial number of a particular step in the validation chain.
+The notation of "dag" is associated with the term DAGman (it is a meta-scheduler for HTCondor that menages dependencies between jobs at a high level).
+
+Description of what each dag_<NN> actually means/does is linked to the "?" icon in the box on the left side of the web page, located below the "Progress Legend" chart; feel free to click on the icon.
+
+h2. Some Tips on Navigating DoSSiER/GENIE-MINERvA Display
+
+"DoSSiER/GENIE-MINERvA":https://g4devel.fnal.gov:8181/DoSSiER/SelectGENIETest.xhtml should show the list of publications that the experimental data were taken from, along with the "default" plot of a GENIE-MINERvA benchmark. The "default" plot show results on single pi0 production, as simulated with R-2_12_10, compared vs MINERvA experimental data published in 2015.
+
+One can make other selections through the pull down menu&#39;s such as "Beam" (e.g. flux), "Reaction", "Observable", VersionTag", and "Model" (e.g. tune).
+
+As an exercise, one can deselect VersionTag R-2_12_10 and select R-3_00_02 instead, then deselect Model (tune) G00_00a_00_000 and select G18_02a_00_00_000, G18_02a_02_11am and G18_10j_00_000, to see how different tunes benchmark vs each other and vs experimental data, for this particular distribution (dSigma/dtheta ion the secondary pi0).
+
+One can also see other distributions by selecting another Beam (flux), Reaction, and Observable. 
+
+Results will be displayed only if a combination of choices is valid (i.e. there&#39;re corresponding results).
+E.g. if one chooses tune G00_00a_00_000 and release (VersionTag) R-3_00_02, the output will be empty (in other words, an "educated user" is anticipated). 
+
+h2. How to Launch GENIE AVS CI
+
+GENIE "on commit" and/or weekly AVS CI are triggered automatically.
+
+However, the procedure can be triggered manually at any given moment, if needs be.
+
+Any *authorized* GENIE developer can trigger one or another workflow, following "these instructions":https://cdcvs.fnal.gov/redmine/projects/genie_ci/wiki
+
+h2. Presentations on GENIE AVS CI
+
+* "GENIE AVS CO Overview at the STWG meeting on 6/13/2018":https://cdcvs.fnal.gov/redmine/attachments/52114/GENIE-AVS-CI-Status-June2018.pdf
+NOTE: Some details may be somewhat out of date as a result of updates implemented since June 2018
+
+h2. Legacy Materials
+
+* Meetings
+*** [[AVS - April 2, 2015]]

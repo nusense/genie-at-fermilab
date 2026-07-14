@@ -1,0 +1,31 @@
+
+{{toc}}
+
+h1. Considerations When Generating Rock Events
+
+h2. Flux (Dk2Nu)
+
+* expanding the flux window, building off previous entry
+* reuse file entries
+* setting minimum estimated max weight
+* what to do when max weight exceeded
+
+h2. GENIE proper
+
+* use "rock box" to limit volume considered based on nu ray energy
+
+(asymrock not yet working)
+(does "efromw" flag work ?)
+
+* example for standalone @gevgen_fnal@ 
+
+* run rays backward to fixed z position (upstream of _any_ volume of consideration)
+
+
+h2. Geant4
+
+* kill particles pointed away and outside some minimum distance from surface
+* tradeoff on killing early vs. possible neutron generation by particle
+
+
+

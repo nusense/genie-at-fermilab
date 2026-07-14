@@ -1,0 +1,228 @@
+
+{{toc}}
+
+h1. Running @gevgen_fnal@
+
+The @gevgen_fnal@ GENIE standalone application is a means of generating events in a realistic geometry with a realistic flux (this variant supports @GSimpleNtpFlux@, @GNuMIFlux@, @GDk2NuFlux@, and simple 1-d flavor specific flux histograms).
+
+h2. Setup
+
+<pre>
+# do some UPS setups here
+</pre>
+
+Using the UPS products for @genie@ _and_ @genie_xsec@ make using GENIE easy.  The use of @genie_xsec@ in particular helps to ensure consistency in the spline files and the (possible) relevant modified "configuration files":https://cdcvs.fnal.gov/redmine/projects/nutools/wiki/GENIE_Configuration_Files
+
+h2. Identifying Relevant Global Parameters
+
+<pre>
+export GEOMETRY="mylardetector.gdml"       # or whatever (.root is okay too)
+export TOPVOL="vWorld"                     # top volume in which to generate
+export GPREFIX="xyz"                       # file naming prefix
+
+# GENIEXSECFILE is defined by UPS  setup genie_xsec ...
+
+export GENLIST="Default"       # default generator list (no MEC) see below
+                               # but might be "Default+CCMEC+NCMEC" or some such
+
+
+export TUNE_FLAG=""
+# for GENIE v3 and beyond you  must also specify a tune
+# if you setup a genie_xsec product you can use
+export TUNE_FLAG="--tune ${GENIE_XSEC_TUNE}"
+
+
+# quiet GENIE down ... by default it is _quite_ verbose
+# this file should either be in a genie_xsec or genie_phyopt added path
+# as part of $GXMLPATH cascade of locations
+export MSGLVL=Messenger_production.xml
+# or
+ export MSGLVL=Messenger_laconic.xml
+# or
+export MSGLVL=Messenger_whisper.xml
+
+
+
+</pre>
+
+h3. use of GSimpleNtpFlux
+
+<pre>
+export FLUXFILE="myfakeflux.gsimple.root"  #
+export DETLOC="NOTHINGSPECIAL"             # not relevant for gsimple flux files
+                                           #   but needs to be non-blank
+</pre>
+
+h3. use of GDk2NuFlux (and GNuMIFlux)
+
+
+<pre>
+export FLUXFILE="myfakeflux.dk2nu.root"  #   or "myflugg.root" or "myg4numi.root"
+export DETLOC="MyParamSetName"           # <param_set> name in first GNuMINtuple.xml file found
+
+</pre>
+
+h2. Run Specific Parameters
+
+<pre>
+export run=12345   # arbitrary run number
+
+# one can either run for 
+#   a fixed # of protons-on-target (for a sensible flux file)
+#   a fixed # of generated events
+# but not both 
+
+# export EXPOSURE="-e 7.5e13"   # POT exposure
+export EXPOSURE="-n 1000"     # number of events
+</pre>
+
+General, little known but important, note:
+
+bq. The ROOT TTree gtree in the "gntp.*.ghep.root" file contains within it a critical bit of information: 
+gtree->GetWeight() returns the POTs used in generating the file&#39;s events 
+irrespective of whether then stopping condition was number of events or a POTs limit.
+
+h2. Running the Executable to Explore the Geometry
+
+To do event generation one must "explore" the geometry in order to determine an upper-limit on the material pathlengths.  This is used to scale the cross-sections to make generation efficient.   One can do this each individual run, but it is most efficient to do this once and write out the result for input to actual generation.
+
+The following will generate a file named @mysetup.maxpl.xml@ by running 25000 flux rays through the geometry.  This will then be used as input for all further generation.
+
+<pre>
+gevgen_fnal \
+   -f ${FLUXFILE},${DETLOC} \
+   -g ${GEOMETRY} \
+   -t ${TOPVOL} \
+   -m "+mysetup.maxpl.xml" \
+   -S "+25000" \
+   -L "cm" -D "g_cm3" \
+   -n 1 \
+   --seed ${run} \
+   -r 9999 \
+   -o xyzzy \
+   --cross-sections ${GENIEXSECFILE} \
+   --event-generator-list ${GENLIST} ${TUNE_FLAG} \
+   --message-thresholds ${MSGLVL} 
+</pre>
+
+h2. Running the Executable to Generate Event Sample
+
+<pre>
+gevgen_fnal \
+   -f ${FLUXFILE},${DETLOC} \
+   -g ${GEOMETRY} \
+   -t ${TOPVOL} \
+   -m "mysetup.maxpl.xml" \
+   -L "cm" -D "g_cm3" \
+   ${EXPOSURE} \
+   --seed ${run} \
+   -r ${run} \
+   -o ${GPREFIX} \
+   --cross-sections ${GENIEXSECFILE} \
+   --event-generator-list ${GENLIST} ${TUNE_FLAG} \
+   --message-thresholds ${MSGLVL} \
+   --event-record-print-level 0
+</pre>
+
+
+The output file will take the form @${GPREFIX}.gntp.${run}.ghep.root@
+
+h2. Other links
+
+https://cdcvs.fnal.gov/redmine/projects/nutools/wiki
+https://cdcvs.fnal.gov/redmine/projects/nutools/wiki/GENIE_Configuration_Files
+
+----
+
+h2. Documentation Snippets from Source Code
+
+<pre>
+          -f 
+              Input &#39;neutrino flux&#39;.
+              This option can be used to specify any of:
+              1 > A g[4]numi[_flugg] beam simulation output file 
+                  and the detector location
+                  The general sytax is:
+                      -f /full/path/flux_file.root,detector,flavor1,flavor2...
+                  [Notes] 
+                  - For more information on the flux ntuples, see the gNuMI doc.
+                  - The original hbook ntuples need to be converted to a ROOT 
+                    format using the h2root ROOT utility.   
+                  - If flavors aren&#39;t specified then use default (12,-12,14,-14)
+                  - See GNuMIFlux.xml or Dk2Nu.xml for all supported detector 
+                    locations
+                  - The g[4]NuMI[_flugg] flux ntuples are read via GENIE&#39;s 
+                    GNuMIFlux driver, and dk2nu file via an external 
+                    product w/ the GDk2NuFlux driver (if it can be found).
+                    This customized GENIE event generation driver passes-through
+                    the complete gNuMI input flux information (eg parent decay 
+                    kinematics / position etc) for each neutrino event it 
+                    generates (as an additional &#39;flux&#39; branch is added on the 
+                    output event tree).
+                  [Examples] 
+                  - To use the gNuMI flux ntuple flux.root at MINOS near 
+                    detector location, type:
+                     &#39;-f /path/flux.root,MINOS-NearDet&#39;
+              1a> Similar to 1 above, but filename contains "dk2nu", then use 
+                  the GDk2NuFlux driver
+              1b> Similar to 1 above, but filename contains "gsimple", then
+                  use GSimpleNtpFlux driver
+              2 > A set of histograms stored in a ROOT file.
+                  The general syntax is:
+                      -f /path/histogram_file.root,neutrino_code[histo_name],...
+                  [Notes] 
+                  - The neutrino codes are the PDG ones.
+                  - The &#39;neutrino_code[histogram_name]&#39; part of the option can
+                    be repeated multiple times (separated by commas), once for
+                    each flux neutrino species you want to consider, eg
+                    &#39;-f somefile.root,12[nuehst],-12[nuebarhst],14[numuhst]&#39;
+                  - When using flux from histograms then there is no point in
+                    using a &#39;detailed detector geometry description&#39; as your
+                    flux input contains no directional information for those
+                    flux neutrinos.
+                    The neutrino direction is conventionally set to be 
+                      +z {x=0,y=0}.
+                    So, when using this option you must be using a simple 
+                    &#39;target mix&#39;
+                    See the -g option for possible geometry settings.
+                    If you want to use the detailed detector geometry 
+                    description then you should be using a driver that
+                    supplies a detailed simulated beam flux.
+                  - When using flux from histograms there is no branch with 
+                    neutrino parent information added in the output event 
+                    tree as your flux input contains no such information. 
+                  - Note that the relative normalization of the flux histograms
+                    is taken into account and is reflected in the relative 
+                    frequency of flux neutrinos thrown by the flux driver
+                  [Examples] 
+                  - To use the histogram &#39;h100&#39; (representing the nu_mu flux)
+                    and the histogram &#39;h300&#39; (representing the nu_e flux) and 
+                    the histogram &#39;h301&#39; (representing the nu_e_bar flux) from 
+                    the flux.root file in /path/ type:
+                      &#39;-f /path/flux.root,14[h100],12[h300],-12[h301]
+
+
+           -F 
+              Apply a fiducial cut 
+              Only used with ROOTGeomAnalyzer
+              if string starts with "-" then reverses sense (ie. anti-fiducial)
+           -S
+              Number of rays to use to scan geometry for max path length
+              Only used with ROOTGeomAnalyzer &amp; GNuMIFlux/GDk2NuFlux
+              +N  Use flux to scan geometry for max path length
+              -N  Use N rays x N points on each face of a box
+           -z 
+              Z from which to start flux ray in user world coordinates
+              Only use with ROOTGeomAnalyzer &amp; GNuMIFlux/GDk2NuFlux
+              If left unset then flux originates on the flux window
+              [No longer attempts to determine z from geometry, generally
+              got this wrong]
+           -o 
+              Sets the prefix of the output event file. 
+              The output filename is built as: 
+              [prefix].[run_number].[event_tree_format].[file_format]
+              The default output filename is: 
+              gntp.[run_number].ghep.root
+              This cmd line arguments lets you override &#39;gntp&#39;
+                  
+</pre>

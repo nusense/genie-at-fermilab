@@ -1,0 +1,252 @@
+
+{{toc}}
+
+h1. UPS and CVMFS Installations for Development Work
+
+These are instructions of setting up to do interactive development work and using the build system.  Interactive work can be done on the VM @geniegpvm01.fnal.gov@
+
+---
+
+h2. Setting up external products using UPS
+
+Common pre-built external products such as @gcc@, @ROOT@, @LHAPDF@, @log4cpp@, etc are built by Lynn Garren for use by the experiments.  To avoid the need to build these on our own we use a similar procedure for downloading and installing those pre-built versions.
+
+To bootstrap UPS one does one or the other of:
+<pre>
+  source /cvmfs/fermilab.opensciencegrid.org/products/genie/externals/setup
+  source /grid/fermiapp/products/genie/externals/setup</pre>depending on whether one want to access the version on CVMFS or @/grid/fermiapp@.
+
+A minimal setup of externals necessary for GENIE development could be:
+<pre>
+  setup root v5_34_25a -q debug:e7:nu
+    # the root setup in turn ensures a compatible gcc, gsl, pythia6, and libxml2
+  setup lhapdf v5_9_1b -q debug:e7
+  setup log4cpp v1_1_1b -q debug:e7
+</pre> 
+
+If you want to setup a pre-built version of GENIE with cross section splines and have it decay charm hadrons and taus:
+<pre>
+  setup genie v2_8_6a -q debug:e7
+  setup genie_xsec v2_8_6 -q default
+  setup genie_phyopt v2_8_6 -q dkcharmtau   # or dkcharm
+</pre>
+
+h3. Listing available products and dependencies
+
+To list the available version of a particular product use:
+<pre>
+   ups list -aK+ <prd-name>
+</pre> 
+leaving out the product name will list all products.
+
+To see the dependency tree use:
+<pre>
+   ups depend genie [-B] v2_8_6a -q debug:e7
+</pre>
+where the option @-B@ will show repeat sub-dependencies, while without it only the first instance is shown.  The output (sans @-B@) looks like:
+<pre>
+genie v2_8_6a -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7
+|__root v5_34_25a -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7:nu
+|  |__clhep v2_2_0_5 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7
+|  |  |__gcc v4_9_2 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals
+|  |__fftw v3_3_4 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug
+|  |__gsl v1_16 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug
+|  |__pythia v6_4_28c -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:gcc492
+|  |__postgresql v9_3_6 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q p279
+|  |  |__python v2_7_9 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals
+|  |     |__sqlite v3_08_08_02 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals
+|  |__mysql_client v5_5_42 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q e7
+|  |__xrootd v3_3_4c -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7
+|  |__libxml2 v2_9_2 -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug
+|__lhapdf v5_9_1b -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7
+|  |__pdfsets v5_9_1b -f NULL -z /grid/fermiapp/products/genie/externals
+|__log4cpp v1_1_1b -f Linux64bit+2.6-2.12 -z /grid/fermiapp/products/genie/externals -q debug:e7
+</pre>
+
+These might help with additional options (man pages might not be accessible):
+<pre>
+   ups list -?
+   ups depend -?
+   man ups_list
+   man ups_depend
+</pre>
+
+h3. Problems solving
+
+If you see a situation like:
+<pre>
+$ source /grid/fermiapp/products/genie/externals/setup
+/usr/bin/which: no ups in (/afs/fnal.gov/files/home/room2/xyzzy/linux/bin:/usr/krb5/bin:/usr/kerberos/bin:/opt/condor/bin:/opt/condor/sbin:/usr/local/bin:/bin:/usr/bin)
+ERROR: did not find ups binary
+</pre>
+this is probably because the version of UPS is not installed for the particular flavor of the OS.
+<pre>
+$ cat /etc/redhat-release 
+Scientific Linux SLF release 5.5 (Lederman)
+</pre>
+which is incompatible with an installation of only the SLF6 version.  
+|_. OS release |_. UPS "flavor"            |_. uname -r                           |_. /lib/libc*                                               |
+| SLF5         | Linux[64bit]+2.6-2.5   | 2.6.18-402.el5                    | GNU C Library stable release version 2.5   |
+| SLF6         | Linux[64bit]+2.6-2.12 | 2.6.32-504.8.1.el6.x86_64  | GNU C Library stable release version 2.12 |
+
+h2. Using the env variables defined by UPS
+
+When configuring to build GENIE use:
+<pre>
+   --with-pythia6-lib=${PYTHIA_FQ_DIR}/lib
+   --with-lhapdf-inc=${LHAPDF_FQ_DIR}/include
+   --with-lhapdf-lib=${LHAPDF_FQ_DIR}/lib
+   --with-libxml2-inc=${LIBXML2_FQ_DIR}/include/libxml2
+   --with-libxml2-lib=${LIBXML2_FQ_DIR}/lib
+   --with-log4cpp-inc=${LOG4CPP_FQ_DIR}/include
+   --with-log4cpp-lib=${LOG4CPP_FQ_DIR}/lib
+</pre>
+
+h2. Installation of new pre-built versions of externals (bundles) into UPS
+
+<pre>
+ssh geniegpvm01.fnal.gov
+
+# make what gets written group writable since we&#39;re not using a shared account
+umask 0002
+
+# convenient shorthands
+export EXTERNALS=/grid/fermiapp/products/genie/externals
+export UPS_WORK_AREA=/genie/app/ups_work_area
+
+# ensure the directories exist
+if [ ! -d ${EXTERNALS} ]; then mkdir -p ${EXTERNALS} ; fi
+if [ ! -d ${UPS_WORK_AREA} ]; then mkdir -p ${UPS_WORK_AREA} ; fi
+
+# work area -- tar files end up here
+cd ${UPS_WORK_AREA}
+
+# fetch the script, make it executable
+curl -O http://scisoft.fnal.gov/scisoft/bundles/tools/pullProducts
+chmod +x pullProducts
+
+# help keep track of what was done by keeping the log
+NOW=`date "+%Y%m%d-%H%M%S"`
+
+# define what we&#39;re going to pull
+# most nodes at FNAL are now SLF6
+# for now WHAT should be "nubase" (includes a version of genie that the experiments use, but that&#39;s okay) 
+# and the choices are version/qualifier combinations
+# and yes, installed version have vX_Y_Z while tarballs and manifests use X.Y.Z notation (ugh)
+# QUAL2 can be "debug" or "prof", you might want to install both
+#
+OS=slf6
+WHAT=nubase
+VERSION=v1_10_01
+QUAL1=e7
+QUAL2=debug
+
+# do the actual pull / unpack
+nohup ./pullProducts ${EXTERNALS} $OS ${WHAT}-${VERSION} ${QUAL1} ${QUAL2} > zzz_pull.$OS.${WHAT}-${VERSION}_${QUAL1}_${QUAL2}.${NOW} 2>&amp;1 &amp;
+
+# if you were successful then clean things out
+rm *.tar.gz2
+
+# this should leave some files that look like:
+# MANIFEST - list of products installed
+nubase-1.10.01-Linux64bit+2.6-2.12-e7-debug_MANIFEST.txt
+nubase-1.10.01-Linux64bit+2.6-2.12-e7-prof_MANIFEST.txt
+# dated log files
+zzz_pull.slf6.nubase-v1_10_01_e7_debug.20150430-140900
+zzz_pull.slf6.nubase-v1_10_01_e7_prof.20150504-173200
+</pre>
+
+h3. What&#39;s available?
+
+<pre>
+  curl -O http://scisoft.fnal.gov/scisoft/bundles/tools/getManifestList
+  chmod +x getManifestList
+  ./getManifestList
+</pre>This script will list bundles, versions for a specific bundle, and available manifests for a specific bundle and version.
+
+
+h3. Doing bits by hand
+
+Sometimes one needs versions of packages not in the @nubase@ bundle, these can be fetched and unpacked with a procedure along the lines of:
+
+<pre>
+ssh geniegpvm01.fnal.gov
+
+# make what gets written group writable since we&#39;re not using a shared account
+umask 0002
+
+# convenient shorthands
+export EXTERNALS=/grid/fermiapp/products/genie/externals
+export UPS_WORK_AREA=/genie/app/ups_work_area
+
+# ensure the directories exist
+if [ ! -d ${EXTERNALS} ]; then mkdir -p ${EXTERNALS} ; fi
+if [ ! -d ${UPS_WORK_AREA} ]; then mkdir -p ${UPS_WORK_AREA} ; fi
+
+# work area -- tar files end up here
+cd ${UPS_WORK_AREA}
+
+curl -O https://scisoft.fnal.gov/scisoft/packages/gdb/v7_9/gdb-7.9-slf6-x86_64.tar.bz2
+cd $EXTERNALS
+tar xjf ${UPS_WORK_AREA}//gdb-7.9-slf6-x86_64.tar.bz2
+</pre>
+
+---
+
+h2. CVMFS
+
+The allocated CVMFS areas for GENIE are:
+<pre>
+   /cvmfs/fermilab.opensciencegrid.org/products/genie/
+   /cvmfs/fermilab.opensciencegrid.org/genie/
+</pre>
+
+These are mapped from:
+<pre>
+   /grid/fermiapp/products/genie/
+   /grid/fermiapp/genie/
+</pre>
+
+As of 2015-05-04 these source areas should get indexed nightly at 4am, the logs from which can be found at:<pre>
+  /grid/fermiapp/cvmfsfermilab/logs/sync-cvmfs-fermilab.log
+</pre>
+
+The work area
+<pre>
+   /exp/genie/app/
+</pre>is not indexed to CVMFS at all and should be used for staging and personal development.
+
+h3. Triggering update &amp; Permissions issues
+
+Per Dave Dykstra 2015-05-05:  Assuming the directory @/grid/fermiapp/cvmfsfermilab/triggers/genie@ exists one can trigger additional updates when you need them, from the genie group account (@geniepro@), by doing:
+<pre>
+ssh geniepro@geniegpvm01.fnal.gov
+nohup /grid/fermiapp/cvmfsfermilab/bin/sync-cvmfs genie > /exp/genie/app/$USER/sync.out 2>/exp/genie/app/$USER/sync.err &amp;
+</pre>
+
+Check the output files for "@rsync:@" messages which indicate a problem.  All files must be world readable and all directories readable and executable.  These can be fixed with:
+<pre>
+   find . -type d ! -perm -5   | xargs chmod a+rx
+   find . -type f ! -perm -a+r | xargs chmod a+r
+</pre>
+
+h2. Ensuring that CVMFS is up-to-date on a node
+
+<pre>
+   /cvmfs/grid.cern.ch/util/cvmfs-uptodate  /cvmfs/fermilab.opensciencegrid.org/products/genie
+   /cvmfs/grid.cern.ch/util/cvmfs-uptodate  /cvmfs/fermilab.opensciencegrid.org/genie
+</pre>
+
+Dave Dykstra says one will need to do this until at least the end of 2015...
+
+---
+
+h2. Useful Links
+
+Bundles are located on:
+
+http://scisoft.fnal.gov/
+* click on "Distribution List" for full list http://scisoft.fnal.gov/scisoft/bundles/
+* click on "Packages List" for individual packages http://scisoft.fnal.gov/scisoft/packages/
+
+https://cdcvs.fnal.gov/redmine/projects/cet-is-public/wiki/BuildBinaryDistributionManifest

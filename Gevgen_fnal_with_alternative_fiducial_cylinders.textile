@@ -1,0 +1,106 @@
+
+{{toc}}
+
+h1. gevgen_fnal with alternative fiducial cylinders
+
+%{color:red}New feature for GENIE beyond @v3_00_06@ and a back-hack for @v2_12_10@%
+
+The @gevgen_fnal@ executable allows one to make fiducial cuts based on parametric volumes (spheres, boxes, cylinders, polygons) beyond simply specifying the @TopVolume@.  But the only supported cylinder orientation was along the @z@-axis.
+
+New code supports along the @x@ and @y@ axes, as well as an completely arbitrary orientation (currently untested).
+
+This page describes using this feature and how to get this in @v2_12_10@
+
+h2. Creating an executable for v2_12_10
+
+Download the files @Makefile@ and @gFNALExptEvGenAltCyl.cxx@ attached to this wiki page.
+
+<pre>
+cd /dune/app/users/$USER/<workarea>
+# setup the base GENIE build
+source setup_dune_nd_env.sh
+
+make all
+# there should now be an executable gevgen_fnal_altcyl
+</pre>
+
+h2. Example of generating events
+
+for @v2_12_10@ one must build and use an alternative executable @gevgen_fnal_altcyl@  (see above).
+
+For use in beyond @v3_00_06@ one will need to adjust the run lines to use the @gevgen_fnal@ and supply a @--tune ${GENIE_XSEC_TUNE}@
+
+<pre>
+# setup genie and genie_xsec
+setup_dune_nd_env.sh
+
+# create a fake simple flux with which to explore the geometry
+# nu_mu rays along the z axis over a 4m x 4m area centered on (0,0)
+# with a spectrum of energies (but restricted to E<10)
+# this creates a file:  myfakeflux.gsimple.root
+# one only needs to do this once
+genie -b -q ./myfakefluxgen3.C+
+
+NEVT=500000
+export GXMLPATH=.:${GXMLPATH}   # for Messenger_production.xml
+
+</pre>
+
+Note:  see this companion page:  [[nutools:GENIEHelper_Geometry#FiducialCut-strings]] for information about the format for the @-F@ (fiducial cut) flag.
+
+To generate a cylinder at (x0,y0)=(50cm,25cm) in the master/world coordinates (note leading leading @m@ in the specification), 1 meter in radius, with caps at z=-50cm and z=100cm. Note: while GENIE internally uses meters for length units, this code relies on the ROOT geometry representation which (if using GDML geometry) is translated in to centimeters.
+
+<pre>
+nohup time ./gevgen_fnal_altcyl -r 333 -n ${NEVT} \
+   -o zcyl \
+   --cross-sections $GENIEXSECFILE \
+   --event-record-print-level -1 \
+   --mc-job-status-refresh-rate 1 \
+   --message-thresholds Messenger_production.xml \
+   -f myfakeflux.gsimple.root,BLAHBLAH \
+   -L cm -D g_cm3 \
+   -g block_of_lar.gdml \
+   -F "mzcyl:50,25,100,-50,100" > zcyl.log 2>&amp;1 &amp;
+
+# when complete use the script attached to this page to visualize the vertices:
+genie plot_ghept.C\(\"zcyl.333.ghep.root\"\)
+</pre>
+
+!zcylinder_v21210.png!
+
+<pre>
+nohup time ./gevgen_fnal_altcyl -r 111 -n ${NEVT} \
+   -o xcyl \
+   --cross-sections $GENIEXSECFILE \
+   --event-record-print-level -1 \
+   --mc-job-status-refresh-rate 1 \
+   --message-thresholds Messenger_production.xml \
+   -f myfakeflux.gsimple.root,BLAHBLAH \
+   -L cm -D g_cm3 \
+   -g block_of_lar.gdml \
+   -F "mxcyl:50,25,100,-50,100" > xcyl.log 2>&amp;1 &amp;
+
+# when complete use the script attached to this page to visualize the vertices:
+genie plot_ghept.C\(\"xcyl.111.ghep.root\"\)
+</pre>
+
+!xcylinder_v21210.png!
+
+<pre>
+nohup time ./gevgen_fnal_altcyl -r 222 -n ${NEVT} \
+   -o ycyl \
+   --cross-sections $GENIEXSECFILE \
+   --event-record-print-level -1 \
+   --mc-job-status-refresh-rate 1 \
+   --message-thresholds Messenger_production.xml \
+   -f myfakeflux.gsimple.root,BLAHBLAH \
+   -L cm -D g_cm3 \
+   -g block_of_lar.gdml \
+   -F "mycyl:50,25,100,-50,100" > ycyl.log 2>&amp;1 &amp;
+
+# when complete use the script attached to this page to visualize the vertices:
+genie plot_ghept.C\(\"ycyl.222.ghep.root\"\)
+</pre>
+
+!ycylinder_v21210.png!
+

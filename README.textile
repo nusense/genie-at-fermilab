@@ -1,0 +1,103 @@
+
+{{toc}}
+
+h1. GENIE at FNAL
+
+This is the wiki page for GENIE work being done at FNAL
+
+[[Transitioning to AlmaLinux9]]
+
+h1.  Official GENIE site
+
+The full GENIE project is located at:  http://www.genie-mc.org
+
+The source code can be found on GitHub:  https://github.com/GENIE-MC
+
+h1. Documentation
+
+h2.  GENIE as a UPS product
+
+The GENIE code is available from @genie.hepforge.org@, but needs to be compiled in a manner consistent with other products it depends on (ROOT, LHAPDF, etc) and with any framework it might be used within (e.g. ART).   Many of the FNAL experiments use UPS to share these installations.
+
+* [[FNAL installations|UPS installations of GENIE at FNAL]]
+* [[UPS products genie_phyopt and genie_xsec|Auxillary UPS GENIE products]]
+* [[Using GENIE UPS products under AlmaLinux9]]
+
+{{collapse(here be dragons)
+* [[Building GENIE on your own|minimal build instructions...if you must...]]
+}}
+
+h2.  Cross-section splines
+
+In order to use GENIE for event generation one must have generated cross-section splines for any and all desired combinations of neutrino an flavor and nuclear isotope.   Versions of these spline files that are adequate for the FNAL experiments are distributed via UPS.
+
+* [[UPS products genie_phyopt and genie_xsec]]
+* List of available pre-calculate spline sets:  https://cdcvs.fnal.gov/redmine/projects/nutools/wiki/GENIE_Configuration_Files
+
+{{collapse(here be more dragons)
+* [[Creating cross-section spline files]]
+}}
+
+h2.  Flux handling for GENIE and FNAL experiments
+
+Event generation for realistic experimental setups relies on a non-trivial characterization of the neutrino flux.  The @GNuMIFlux@ code exists to handle many of the data products of the NuMI flux simulations.  The @GSimpleNtpFlux@ format is a simplified ntuple containing the bare minimum of data for neutrino rays; such files can be derived from @GNuMIFlux@ interpretations of the beam simulations evaluated at a given detector location.
+
+* [[GNuMIFlux code and config]]
+* [[Generating GSimpleNtpFlux files]]
+* [[Manipulating GSimpleNtpFlux files]]
+
+Future "flux" file are to be migrated to using the @dk2nu@ ntuple format:  https://cdcvs.fnal.gov/redmine/projects/nusoftart/wiki/Dk2nu
+
+h2.  Running @gevgen_fnal@
+
+In many cases @genie@ event generation will occur as a stage embedded in the @art@ framework.  Information on that can be found as part of the @nutools@ and/or @nugen@ project ( https://cdcvs.fnal.gov/redmine/projects/nutools/wiki and https://cdcvs.fnal.gov/redmine/projects/nugen ).  
+
+* [[running gevgen_fnal]]
+
+* [[gevgen_fnal with alternative fiducial cylinders]]
+
+h2.  Reading GENIE native format files 
+
+* [[reading ghep.root files]]
+
+
+
+
+h2. [[Considerations When Generating Rock Events]]
+
+
+
+
+---
+
+h1. Common questions
+
+h2. [[What&#39;s the difference between gsimple and dk2nu (g4numi) fluxes ]]  
+
+h2. [[Getting a AR23_20j tune when I only have a AR23_20i one]]
+
+---
+
+h1. GENIE development work at Fermilab
+
+p{font-size:120%;color:red}.  This section is intended for the local developers and *not* end-users.
+
+h2. [[CVMFS and UPS Installations for Development Work]]
+
+h2. [[How to Build Professor on geniegpvm01]] 
+
+h2. [[Running GENIE on grid]]
+
+h2. [[Automated Validation]]
+
+{{collapse(Click to Show Obsolete Validation Materials, Click to Hide Obsolete Validation Materials)
+
+h2. -[[Legacy Validation]]- obsolete
+
+}}
+
+---
+
+{{collapse(View wiki structure...)
+  bq. {{child_pages}}
+}}

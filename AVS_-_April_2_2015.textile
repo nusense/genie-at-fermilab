@@ -1,0 +1,103 @@
+
+h1. CVMFS
+
+h2. MINOS Way
+
+See also this link from Robert:
+
+* [Evernote](https://www.evernote.com/l/AQpZzdC7WV9A4pLE29gO6QKMDTdW1UWsqcY)
+
+MINOS Conceptual:
+
+1. build on build machine
+
+2. push to a different machine
+
+3. issue a publish command - whatever that means
+
+4. how to know when it has installed?
+
+Steps:
+
+1. `ssh cvmfs(minos)@oasiscf2.fnal.gov`
+
+2. `cvmfs_server transaction minos.opensciencegrid.org`
+
+3. `scp -r user@node:/location /cvmfs/minos.opensciencegrid.org/...` (on this
+machine)
+
+4. `cvmfs_server publish /cvmfs/minos.opensciencegrid.org`
+
+Assume we get:
+
+* `/cvmfs/fermilab.opensciencegrid.org/products/genie`?
+* Or, better: `/cvmfs/fermilab.opensciencegrid.org/genie`?
+* Or, best `/cvmfs/genie.opensciencegrid.org/`?
+> * Here, `products` would be a lie...
+> * Plus, it is harder to "stumble onto" (we want to hide)
+
+What does the externals look like (CVMFS root understood):
+
+* /genie/app/externals/setup    # sets up ups, no products
+* /genie/app/externals/.ups
+* /genie/app/externals/root/
+* /genie/app/externals/root/v5.34.23/
+* /genie/app/externals/root/v5.34.23.version/
+* /genie/app/externals/root/v5.34.23.version/linux...debug (file - compiler spec)
+* /genie/app/externals/log4cpp/
+
+We get products with `setup root v5.34.27 -q e7:debug`.
+
+h2. AVS Project Needs
+
+The whole loop should go _weekly_.
+
+1. resolve login privileges for CVMFS install? - maybe just use Dave Dykstra -
+but we need to be able to push GENIE on our schedule, so we probably need login
+and push abilities (else we need a locking mechanism) - we start with a
+bluearc area to build stuff for fun
+
+Gabe and Robert will meet with Dave Dykstra.
+
+2. populate CVMFS as described above with our externals - script (use ups) -
+give path and watch ups magic happen - FIRST populate bluearc area. Decide how
+to structure the area (use above for externals) - but what to do with multiple
+versions of GENIE
+
+Robert.
+
+3. script to build GENIE - use Robert&#39;s? - or lamp
+
+Julia.
+
+4. make work on buildmaster build service 
+
+Julia.
+
+5. push GENIE after successful build to CVMFS (and test with Bluearc)  (see
+step 1 for how to do this) - push to bluearc first - or first copy elsewhere
+in buildmaster 
+
+Tomek.
+
+6. mechanism for when GENIE is in CVMFS
+
+Gabe.
+
+7. Establish how to use GENIE grid VO
+
+Tomek.
+
+8. Decide on output stratgey
+
+Gabe will look at storage requst.
+
+9. Launch jobs on the grid with GENIE VO - need to put output in 
+
+Tomek and Robert.
+
+10. notification / quality reporting - nice a regression test against some
+set of splines
+
+Gabe and Julia.
+

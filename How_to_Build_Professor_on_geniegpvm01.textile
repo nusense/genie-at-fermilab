@@ -1,0 +1,342 @@
+
+{{toc}}
+
+h1. How to Build Professor on geniegpvm01.fnal.gov
+
+This notes describe, as of May 2019,  the procedure of building "Professor tuning toolkit":https://professor.hepforge.org on the GENIE dedicated virtual machine at FNAL (geniegpvm01.fnal.gov).
+ 
+If you have specific questions, please try to contact Julia Yarba: yarba_j@fnal.gov
+
+Please bear in mind that it uses 3rd party packages that are centrally installed in the CVMFS disk space in a form of UPS products..
+
+NOTE: This procedure has been tried on other resources (e.g. Wilson cluster at FNAL, with gcc v7.3.0 or gcc v6.4.0).
+
+*WARNING: These instructions may or may not work for building Professor2.3.0.
+As of May 2019, everything worked well when building Professor2.3.0 (w/Eigen-3.3.5) on the FNAL Wilson cluster  (headnode: tev.fnal.gov).
+However, an initial attempt to build Professor2.3.0 on geniegpvm01 has failed - work in progress.*
+
+p{font-size:100%;color:magenta}.  *UPDATE: As of June 2019, Professor2.3.1 is available, and it builds by the instructions of this document on either Wilson cluster or geniegpvm01.fnal.gov.*
+*If you are interested in Professor2.3.1, please bear in mind the following:*
+*It is NOT distributed via hepforge but is available via bitbucket:     
+wget https://bitbucket.org/iamholger/professor/downloads/Professor-2.3.1.tar.gz*
+*It is  recommended to build with Eigen-3.3.7 and YODA-1.7.6*
+*YODA-1.7.6 is available via hepforge or bitbucket:    wget  https://yoda.hepforge.org/downloads/YODA-1.7.6.tar.gz*
+
+h3. STEP-1: Login to geniegpvm01.fnal.gov
+
+h3. STEP-2: Setup necessary externals, as UPS products
+
+source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
+setup root v6_12_06a -q e17:prof
+
+NOTE: Your compiler will be gcc v7_3_0
+
+NOTE: Package pyDOE (needed later) is NOT a part of standard numpy distro !!!
+      
+h3. STEP-3: Make sure matplotlib is installed; if not one can install using pip:
+
+<pre>
+pip install matplotlib -t /path/to/your/local/matplotlib
+export PYTHONPATH=/path/to/your/local/matplotlib:$PYTHONPATH
+</pre>
+
+NOTE: One can check under interactive python if matplotlib is correctly installed:
+<pre>
+python
+>>> import matplotlib
+>>> exit()
+
+If matplotlib is still missing, one will get an error message (before exiting, that is).
+</pre>
+
+
+h3. STEP-4: Make sure iMinuit is installed 
+
+Trying to import it under interactive python; if not, install it using pip:
+<pre>
+pip install iMinuit -t /path/to/you/local/iMinuit
+export PYTHONPATH=/path/to/your/local/iMinuit:$PYTHONPATH
+</pre>
+
+Double check interactively if iMinuit is properly in your PYTHONPATH:
+<pre>
+python
+>>> import iminuit
+>>> exit()
+</pre>
+
+GENERAL REMARK: There&#39;s a slight chance that running pip will screw up the font  in a terminal window...
+
+h3. STEP-5: Download Professor
+
+<pre>
+wget http://www.hepforge.org/archive/professor/Professor-2.2.2.tar.gz
+</pre>
+
+NOTE-1: As mentioned at the beginning of this document, Professor2.3.0 may or may not build on a given node.
+However, Professor2.3.1 has been recently released, and it seems to build fine, and is operational.
+Bear in mind that it is available via bitbucket but not necessarily via hepforge.
+NOTE-2: According to Professor&#39;s development team, it may make sense to wait for Professor-2.4 series, as Professor-2.3 is "nothing special".
+It should still be noted that Professor2.3.x series offers a "prototype" of a feature that will allow to automatically selected polynomial order in parametrization but the authors say it is "not very scientific".
+All in all, in Professor 2.3.0 this is feature is not operational due to a bug that has been fixed in recent release 2.3.1. 
+
+ h3. STEP-6: Download YODA-1.6.7
+
+<pre>
+wget http://www.hepforge.org/archive/yoda/YODA-1.6.7.tar.gz
+</pre>
+
+NOTE: The YODA1.7.0 "configure" script crashed on tev.fnal.gov on m4_ifblank. 
+      It happened with gcc6.4.0 compiler (that is set together with e.g. art, etc.). 
+      If trying to build e.g. in "native" tev.fnal.gov environment (gcc4-series, etc.), other issues are present.
+      However, on geniegpvm01 we&#39;re building with gcc v7_3_0 so it may make sense to re-check more recent versions.
+
+h3. STEP-7: 6. Download Eigen-3.3.4 
+
+See the following URL for details: http://eigen.tuxfamily.org/index.php?title=Main_Page
+
+<pre>
+wget http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz
+</pre>
+
+NOTE: tarball is called 3.3.4.tar.gz (yes, that&#39;s how it&#39;s called, no less)
+
+h3. STEP-8: Un-tar Eigen-3.3.4
+
+NOTE: It un-tar&#39;s into "eigen-eigen-5a0156e40feb" (hahaha).
+      Maybe better to mv eigen-eigen-5a0156e40feb to eigen_3.3.4 ???
+
+<pre>
+tar -xzf 3.3.4.tar.gz
+mv eigen-eigen-5a0156e40feb eigen-3.3.4
+</pre>
+
+h3. STEP-9: Build ("build" ?) Eigen (it may take a few minutes)
+
+Take a look at the INSTALL notes in the directory - there&#39;re installation instructions there (the procedure uses cmake).
+
+NOTE: The INSTALL notes don&#39;t explicitly say, but the build procedure requites cmake 2.8.5 or later (while on geniegpvm01 the default is cmake 2.6-patch4)
+
+One may want to setup a modern version of cmake, e.g.
+<pre>
+setup cmake v3_12_1 
+</pre>
+
+Note that apparently Eigen requires an "out-of-source" build, so one should first create a build directory for it, and do the actual build from there.
+However, if one can still istall into eigen-3.3.4 (or whatever you&#39;d call it), if one wishes (via -DCMAKE_INSTALL_PREFIX).
+
+<pre>
+mkdir eigen-3.3.4-build
+cd eigen-3.3.4-build
+cmake  -DCMAKE_INSTALL_PREFIX=/path/to/eigen-3.3.4 /path/to/eigen-3.3.4
+
+( e.g. cmake  -DCMAKE_INSTALL_PREFIX=../eigen-3.3.4  ../eigen-3.3.4 )
+
+make install
+</pre>
+
+h3. STEP-10: Un-tar and build Professor, add it to various paths
+ 
+Instructions are available in Professor-2.2.2/README and online, via the following URL:
+http://professor.hepforge.org/docs.sphinx220/install.html#required-packages
+
+NOTE: Professor does NOT require out-of-source build
+
+<pre>
+tar -xzf Professor-2.2.2.tar.gz
+cd Professor-2.2.2
+CXXFLAGS="-I../eigen-3.3.4/include/eigen3 -O4" make all
+
+( generic way: CXXFLAGS="-I/LOCATION_OF_EIGEN_HEADERS -O4" make all )
+
+export PATH=/path/to/Professor-2.2.2/bin:$PATH
+export LD_LIBRARY_PATH=/path/to/Professor-2.2.2/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=/path/to/Professor-2.2.2/lib/python2.7/site-packages:$PYTHONPATH
+</pre> 
+
+Example: assuming that one is in the Professor-2.2.2 top dir, one can do as follows:
+<pre>
+export PATH=$PWD/bin:$PATH
+export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$PWD/lib/python2.7/site-packages:$PYTHONPATH
+</pre>
+
+ *** STEP-11: Give a try to Professor&#39;s most basic utility prof2-ncoeffs
+ 
+</pre>
+prof2-ncoeffs 3
+</pre>
+
+The output should look like the following:
+<pre>
+Polynomial order     Minimum samples
+         0                   1
+         1                   4
+         2                  10
+         3                  20
+         4                  35
+         5                  56
+         6                  84
+         7                 120
+         8                 165
+         9                 220
+        10                 286
+</pre>
+
+h3. STEP-12: Un-tar, configure, and build YOUA-1.6.7, with Root extension
+ 
+Bear in mind that installation into the build directory isn&#39;t supported.
+For this reason you&#39;ll need a separate install directory.
+ 
+<pre>
+tar -xzf YODA-1.6.7.tar.gz
+mkdir YODA-1.6.7-install
+cd YODA-1.6.7
+PYTHON=$PYTHONHOME/bin/python ./configure --prefix=$PWD/../YODA-1.6.7-install --enable-root
+make &amp;&amp; make install
+</pre>
+
+NOTE: If one tries to configure as stated in the instructions
+      ./configure --prefix=$PWD/../YODA-1.6.7-install --enable-root
+      i.e. without leading PYTHON=$PYTHONHOME/bin/python, the configuration procedure will 
+      eventually chock up on not being able to locate python.
+      So do exactly as recommended above (it was a verbal recommendation from Holger Sch.).
+
+NOTE: If building on a multi-core node, you can do a parallel build. e.g. 
+           make -j4 &amp;&amp; make install
+
+h3. STEP-13: Extend paths to YODA
+ 
+<pre>
+export LD_LIBRARY_PATH=/path-to/YODA-1.6.7-install/lib:$LD_LIBRARY_PATH
+export PATH=/path-to/YODA-1.6.7-install/bin:$PATH
+export PYTHONPATH=/path-to/YODA-1.6.7-install/lib/python2.7/site-packages:$PYTHONPATH
+</pre>
+
+E.g. to export PYTHONPATH from from the YODA-1.6.7-install top dir, one would do
+<pre>
+export PYTHONPATH=$PWD/lib/python2.7/site-packages:$PYTHONPATH 
+</pre>
+
+NOTE: Technically speaking NO YODA is needed to run prof2-ncoeffs, prof2-sample, prof2-ipol, or even prof2-tune. 
+      However, prof2-tune will kind of complain of not finding YODA, thus not writing YODA nistos, but just "tunes" output.
+      In principle, YODA would be useful since it has yoda2root features, etc. (but fortunately it&#39;s not mandatory)
+
+h3. STEP-14: You may want to install pyDOE
+
+If you plan to e.g. tuning with the --scan-n option, you may want to install pyDOE as well.
+
+<pre>
+pip install pyDOE -t /path/to/you/local/pyDOE
+export PYTHONPATH=/path/to/your/local/pyDOE:$PYTHONPATH
+</pre>
+
+Double check interactively if pyDOE is properly in your PYTHONPATH:
+<pre>
+python
+>>> import pyDOE
+>>> exit()
+</pre>
+
+h3. STEP-15: Professor in 5 minutes
+
+For those new to Professor and who wishes to see/learn its basics "in 5 minutes", there is a nice example ("Toy Professor") by Robert Hatcher:
+https://cdcvs.fnal.gov/redmine/projects/professor-based-parameter-variation/wiki/Creating_Toy_DataMC#Seed-File-Structure 
+
+NOTE: In order to try this example, you may need simpy package. If it is not in your environment, you may want to install it
+<pre>
+pip  install   simpy -t /path/to/your/local/sympy
+export PYTHONPATH=/path/to/your/local/sympy:$PYTHONPATH
+</pre>
+
+The create_toy_data.py operates in YODA.
+
+However, the Root-based script would look as follows:
+<pre>
+#! /usr/bin/env python2.7
+"""
+This is a script to create data for toy "problem" for professor
+Uses values in params.json  (professor uses params.dat)
+"""
+
+import random
+import ROOT 
+import json
+from numpy.random import poisson
+from sympy import symbols
+
+myfile = open("params.json","r");
+
+myjson = json.load(myfile)
+print "myjson object: ",myjson
+
+params = myjson["params"]
+print "params object: ",params
+
+a = params["a"]
+b = params["b"]
+c = params["c"]
+
+x, y, z = symbols(&#39;x y z&#39;)
+func1 = 100*(400.-c*100.*pow(abs(x-5.0*b)/10.0,2+a))
+print &#39;func1: &#39;,func1
+
+
+def eval3_1(xx,yy,zz):
+    v = func1.subs(x,xx)
+    print "func1: ",func1,&#39;xx=&#39;,xx,&#39; v=&#39;,v
+    return v
+
+ROOT.TH1.SetDefaultSumw2()
+nbins=50
+xmin=0.0
+xmax=20.0
+h1 = ROOT.TH1D( &#39;h1_foo1&#39;, &#39;toy data&#39;, nbins, xmin, xmax )
+# for b in range(1,h1.GetNbinsX()+1):
+for b in range(h1.GetNbinsX()):
+    xmid = h1.GetBinLowEdge(b+1) + 0.5*h1.GetBinWidth(b+1)
+    n = eval3_1(xmid,0,0)
+    if (n<=0):
+        continue
+    # mean for this bin ... now poisson
+    nthrows = poisson(n)
+    print b, n, nthrows
+    for toss in range(nthrows):
+        h1.Fill(xmid)
+
+
+ofile = ROOT.TFile( "hists.root", "RECREATE" )
+h1.Write()
+ofile.Close()
+
+# end-of-script
+</pre>
+
+h3. STEP-16: Try a mini-example (from Geant4)
+
+It&#39;s in the followng area:
+<pre>
+/genie/app/yarba_j/Professor-Install-Trial/Geant4-FTF-Professor
+</pre>
+
+So please cd to that area, and take a look.
+This is a very minimal "pilot" example from Geant4 Fritiof model (FTF), and it&#39;s based on 25 points in the 3-parameter space.
+There&#39;re 2 directories there, scan and data.
+The data directory contains a Root file which histograms representing a group of experimental data (from IAEA/Ishibashi, ITEP771, and NA49).
+In addition there&#39;re params.dat and params.json files that contain Geant4 default settings of the  FTF parameters that we want to fit.
+The scan directory contains 25 subdirectories, and each subdirectory contains a Root file with simulated histograms (observables) that correspond to the experimental data mentioned above, plus params files with the FTF parameters settings used in this particular simulation. 
+
+Try the following steps:
+<pre>
+prof2-ipol  scan  - it&#39;ll create file ipol.dat (Eigen interpolation of the data)
+
+prof2-tune -d data ipol.dat      - this is the actual fit
+
+NOTE: if one uses --scan-n NPoints option it actually greatly improves fit results, e.g.
+
+prof2-tune -d data ipol.dat --scan-n 25
+</pre>
+
+The output is written to the "tunes" directory.
+
+h3. HAVE FUN !!!
