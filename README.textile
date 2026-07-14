@@ -5,13 +5,13 @@ h1. GENIE at FNAL
 
 This is the wiki page for GENIE work being done at FNAL
 
-[[Transitioning to AlmaLinux9]]
+"Transitioning to AlmaLinux9":Transitioning-to-AlmaLinux9.textile
 
 h1.  Official GENIE site
 
 The full GENIE project is located at:  http://www.genie-mc.org
 
-The source code can be found on GitHub:  https://github.com/GENIE-MC
+The source code can be found on GitHub at "https://github.com/GENIE-MC":https://github.com/GENIE-MC
 
 h1. Documentation
 
