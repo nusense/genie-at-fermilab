@@ -5,52 +5,47 @@ h1. Building GENIE on your own
 
 p{font-size:200%px;color:green}.  Really?  Must you?
 
-This should be a prescription that will work for unpriv&#39;d users.  It goes something along the lines of:
+This should be a prescription that will work for unpriv'd users.  It goes something along the lines of:
 
 h2.  Personal UPS area
 
-Pick a location where your own UPS will be it must be on a "app" disk (e.g. /nova/app).  You&#39;ll need to refer to this again for setting things up in new sessions after it is built ... so remember where you parked
+Pick a location where your own UPS will be it must be on a "app" disk (e.g. /nova/app).  You'll need to refer to this again for setting things up in new sessions after it is built ... so remember where you parked
 
-<pre>
-   export MYUPSDIR=/<expt>/app/users/$USER/altups   # where <expt> is "nova" or "uboone" or whatever
-</pre>
+bc.    export MYUPSDIR=/<expt>/app/users/$USER/altups   # where <expt> is "nova" or "uboone" or whatever
 
 h3.  Initializing your personal UPS
 
-The @ALTUPSSRC@ is where you can get some stuff that make this easier.  You&#39;ll only need to know this location during the initial setup of your UPS area
-<pre>
-   ALTUPSSRC=/nusoft/app/alt
-</pre>
+The @ALTUPSSRC@ is where you can get some stuff that make this easier.  You'll only need to know this location during the initial setup of your UPS area
+
+bc.    ALTUPSSRC=/nusoft/app/alt
 
 Create your UPS directory, and populate it with the magic files
-<pre>
-   mkdir -p $MYUPSDIR
+
+bc.    mkdir -p $MYUPSDIR
    cd $MYUPSDIR
    cp -vax $ALTUPSSRC/.upsfiles $MYUPSDIR 
    cp -vax $ALTUPSSRC/.updfiles $MYUPSDIR 
-</pre>
 
 h3.  Initializing GENIE product in your personal UPS
 
 Create the genie product area
-<pre>
-   mkdir genie
-   cd genie
-</pre>
 
-Here are some helper scripts you&#39;ll use for GENIE.
-<pre>
-   ln -s /nusoft/app/alt/genie/make_genie_ups_skeleton $MYUPSDIR/genie
+bc.    mkdir genie
+   cd genie
+
+Here are some helper scripts you'll use for GENIE.
+
+bc.    ln -s /nusoft/app/alt/genie/make_genie_ups_skeleton $MYUPSDIR/genie
    ln -s /nusoft/app/alt/genie/make_genie_nusoft_build $MYUPSDIR/genie
-</pre>
-You shouldn&#39;t have to make copies unless you plan on editing them.   If you&#39;re editing them then they need revision and you should let @rhatcher@fnal.gov@ know what and why.  They are also available from https://github.com/nusense/altups_scripts
+
+You shouldn't have to make copies unless you plan on editing them.   If you're editing them then they need revision and you should let @rhatcher@fnal.gov@ know what and why.  They are also available from https://github.com/nusense/altups_scripts
 
 h2.  Setup the build environment
 
-The easiest way to start is to setup an existing @genie@ release with similar properties relative to what you&#39;re attempting to build. This is what will setup the compiler and auxiliary packages (ROOT, LHAPDF, etc) for you.  
+The easiest way to start is to setup an existing @genie@ release with similar properties relative to what you're attempting to build. This is what will setup the compiler and auxiliary packages (ROOT, LHAPDF, etc) for you.  
 At a minimum you must have a UPS area defined that has the auxiliary products you desire installed.
-<pre>
-   # bootstrap UPS
+
+bc..    # bootstrap UPS
    source /nusoft/app/alt/setup
    # or perhaps ...
    source /grid/fermiapp/products/uboone/setup_uboone.sh
@@ -63,7 +58,8 @@ At a minimum you must have a UPS area defined that has the auxiliary products yo
 
    # setup one of many existing versions (this is an example ... pick appropriately)
    setup genie v3_00_06i -q debug:e19
-</pre>
+
+p. .
 
 h2.  Create a GENIE version in your UPS area
 
@@ -74,35 +70,31 @@ In this example:
 *     e19:debug  = the UPS qualifiers
 *     HEAD          = check out the master branch (script might not handle branches/tags correctly)
 
-Don&#39;t reuse the official UPS version name here, lest confusion reign supreme.  Pick something like @my3_00_06@ or such.  Use something that describes what you have (i.e. not "test") to avoid it as it being too ambigious later ... the UPS dependencies will allow you to get those setup correctly, but if you&#39;ve forgotten what this variant was for (or perhaps from whence you started) then you&#39;re on your own.  The minimum necessary to get a version started in your UPS area (and check out the code from the repository) is:
-<pre>
-   ./make_genie_ups_skeleton --show-config --checkout=yes  my3_00_06alt e19:debug HEAD
-</pre>
+Don't reuse the official UPS version name here, lest confusion reign supreme.  Pick something like @my3_00_06@ or such.  Use something that describes what you have (i.e. not "test") to avoid it as it being too ambigious later ... the UPS dependencies will allow you to get those setup correctly, but if you've forgotten what this variant was for (or perhaps from whence you started) then you're on your own.  The minimum necessary to get a version started in your UPS area (and check out the code from the repository) is:
+
+bc.    ./make_genie_ups_skeleton --show-config --checkout=yes  my3_00_06alt e19:debug HEAD
 
 Using the @--help@ flag will show you additional options.  The 3 non-flag args are _version_ _qualifier_ and _svn-tag_.
 
 h2.  Now it should be a UPS product
 
-Now you should be able to "setup" the UPS product.  it isn&#39;t _built_, but all the paths can be/are defined.
+Now you should be able to "setup" the UPS product.  it isn't _built_, but all the paths can be/are defined.
 
-<pre>
-   setup genie my3_00_06alt -q e19:debug
-</pre>
+bc.    setup genie my3_00_06alt -q e19:debug
 
-Note, you&#39;ll need to know what _qualifier_ (@-q@) as well as the _version_ name that was assigned by the skeleton making process.   If you forget you can get hints via:
-<pre>
-   ups list -aK+ genie -z $MYUPSDIR
+Note, you'll need to know what _qualifier_ (@-q@) as well as the _version_ name that was assigned by the skeleton making process.   If you forget you can get hints via:
+
+bc.    ups list -aK+ genie -z $MYUPSDIR
    # or if you know the version name you gave it
    ups list -aK+ genie my3_00_06alt -z $MYUPSDIR
-</pre>
 
 You can see what settting up @genie@ also sets up using:
-<pre>
-   ups depend genie my3_00_06alt -q debug:e19
-</pre>
+
+bc.    ups depend genie my3_00_06alt -q debug:e19
+
 yields a dependency tree such as:
-<pre>
-genie my3_00_06alt -f Linux64bit+3.10-2.17 -z <myupsarea> -q debug:e19
+
+bc. genie my3_00_06alt -f Linux64bit+3.10-2.17 -z <myupsarea> -q debug:e19
 |__root v6_18_04d -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products -q debug:e19
 |  |__numpy v1_15_4b -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products -q e19:p372:prof
 |  |  |__python v3_7_2 -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products
@@ -119,44 +111,37 @@ genie my3_00_06alt -f Linux64bit+3.10-2.17 -z <myupsarea> -q debug:e19
 |  |__libxml2 v2_9_9 -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products -q debug
 |__lhapdf v6_2_3d -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products -q debug:e19:p372
 |__log4cpp v1_1_3b -f Linux64bit+3.10-2.17 -z /cvmfs/larsoft.opensciencegrid.org/products -q debug:e19
-</pre>
 
 h2.  Actually building GENIE
 
 Configure and build genie using another of the helper scripts
 
-<pre>
-   # set it up if you haven&#39;t already, this defines $GENIE
-   cd $GENIE  
+bc.    # set it up if you haven't already, this defines $GENIE
+   cd $GENIE
    $MYUPSDIR/genie/make_genie_nusoft_build.sh -C -m
-</pre>
 
-So that should get you a build.  This build script just makes configuring and running make easier and consistent, there&#39;s nothing you couldn&#39;t do by hand.
+So that should get you a build.  This build script just makes configuring and running make easier and consistent, there's nothing you couldn't do by hand.
 
 Future sessions will require:
 
-<pre>
-   source /nusoft/app/alt/setup  # or other UPS bootstrapping (e.g. uboone example above)
+bc..    source /nusoft/app/alt/setup  # or other UPS bootstrapping (e.g. uboone example above)
 
    export MYUPSDIR=/nova/app/users/$USER/altups
    export PRODUCTS=${MYUPSDIR}:${PRODUCTS}
    setup genie my3_00_06alt -q debug:e19
-</pre>
 
-to get it setup again.
+p. to get it setup again.
 
 h2.  Future Rebuilds of GENIE and SRT
 
-Now ... there are conflicts between GENIE&#39;s build system and the one that is present after setting up the NOvA/LArSoft SRT code.  The above assumes you did *not* setup experiment specific code, especially anything to do with SRT, before you started.  This approach is generally the simplest and least likely to cause confusion.
+Now ... there are conflicts between GENIE's build system and the one that is present after setting up the NOvA/LArSoft SRT code.  The above assumes you did *not* setup experiment specific code, especially anything to do with SRT, before you started.  This approach is generally the simplest and least likely to cause confusion.
 
-But if it can&#39;t be avoided, in any session where you&#39;re going to compile GENIE and *have* setup SRT, do the following:
+But if it can't be avoided, in any session where you're going to compile GENIE and *have* setup SRT, do the following:
 
-<pre>
-   cd $GENIE
+bc.    cd $GENIE
    srt_setup --unsetup
    gmake [genie-build-target]
-</pre>
 
-You can also use the @genie_build_nusoft.sh@ script to rebuild.  The @-c@ flag cleans out everything, @-C@ configures GENIE, and @-m@ it to do the build.  Use them in appropriate combinations.  If you don&#39;t do a clean (and generally you don&#39;t need to) then in principle only the things that changed get rebuilt; I&#39;ve found that if you change only a header sometimes it misses that and doesn&#39;t rebuild something that it should.  So pay attention to what actually is getting compiled and make into libraries.
+You can also use the @genie_build_nusoft.sh@ script to rebuild.  The @-c@ flag cleans out everything, @-C@ configures GENIE, and @-m@ it to do the build.  Use them in appropriate combinations.  If you don't do a clean (and generally you don't need to) then in principle only the things that changed get rebuilt; I've found that if you change only a header sometimes it misses that and doesn't rebuild something that it should.  So pay attention to what actually is getting compiled and make into libraries.
 
 The "@srt_setup --unsetup@" will make that session unable to build NOvA/LArSoft SRT code (and re-doing @setup_nova@ or LArSoft equivalent is probably going to fail).  So expect to do some multi-terminal session juggling.  I usually have one window open for editing/compiling GENIE and a separate session for my test release work.
