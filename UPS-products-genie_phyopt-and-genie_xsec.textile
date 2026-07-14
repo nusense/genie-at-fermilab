@@ -40,8 +40,8 @@ a smaller uncompressed file, e.g. @gxspl-FNALsmall.xml@; @GENIEXSECFILE@ points 
 
 The current list of isotopes for which splines are generate is (symbol : name, Z, [ A1, A2, ...]):
 
-bc[style="line-height: 0.9;"]..
-ionlist = {
+bc.
+  ionlist = {
     &#39;H&#39;  : [&#39;hydrogen&#39;,    1, [ 1, 2 ]],  # don&#39;t duplicate free proton?
     &#39;He&#39; : [&#39;helium&#39;,      2, [ 4 ]],   # skip 3
     &#39;Be&#39; : [&#39;beryllium&#39;,   4, [ 9 ]],  # only v2.8.6a and beyond
