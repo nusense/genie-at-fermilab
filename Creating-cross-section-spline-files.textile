@@ -118,6 +118,7 @@ p. At any time, running @./driver_script.sh@ will check the current status of pr
 does not know how to check whether condor jobs are still running so it might suggest running make-up jobs when a stage is incomplete; it is thus *important* that the user know the status of their jobs.
 
 When all steps are complete it will look like:
+
 bc.. $ ./driver_script.sh
 checking status
 /grid/fermiapp/nusoft/generate_genie_xsec/check_progress.sh

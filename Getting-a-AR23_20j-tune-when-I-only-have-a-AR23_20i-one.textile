@@ -13,12 +13,14 @@ h2.  Create a new CMC/Tune
 
 In the case under consideration we solely want to change the FSI model relative to @AR23_20i@.   For this we need a new CMC directory.  Generally the @${GENIE}/config@ directory is not writable, so we will have to locate it elsewhere.
 We can start by copying the files from the @AR23_20i@ CMC:  It's best, for reasons we'll see later, if the @${WORKAREA}@ is a clean directory with no other contents.
+
 bc. cd ${WORKAREA}
 cp -va $GENIE/config/AR23_20i ./AR23_20j
 
 h2. Modify the FSI model to use
 
 We're only changing the FSI model so the necessary change is quite trivial
+
 bc. cd AR23_20j
 sed -i -e 's/HAIntranuke2018/HNIntranuke2018/g' ModelConfiguration.xml
 cd ..
@@ -76,6 +78,7 @@ h3. INCL++
 bc. sed -i -e 's/HAIntranuke2018/HINCLCascadeIntranuke/g' ModelConfiguration.xml
 
 but one needs:
+
 bc. setup genie v3_04_00d -q e20:prof:+inclxx # "+" is critical for setting this up
 setup genie_xsec v3_04_00 -q AR2320k00000:e1000:k250
 
@@ -84,5 +87,6 @@ h3. Geant4 Bertini Cascade
 bc. sed -i -e 's/HAIntranuke2018/HG4BertCascIntranuke/g' ModelConfiguration.xml
 
 but one needs:
+
 bc. setup genie v3_04_00d -q e20:prof:+geant4 # "+" is critical for setting this up
 setup genie_xsec v3_04_00 -q AR2320l00000:e1000:k250

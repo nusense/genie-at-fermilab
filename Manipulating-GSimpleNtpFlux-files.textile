@@ -6,9 +6,11 @@ h1. Manipulating GSimpleNtpFlux files
 h2. What's in the file?
 
 One can use the command:
+
 bc. $ genie -b -q 'dump_gsimple_file.C("gsimple_input.root")'
 
 e.g.
+
 bc. $ genie -b -q $GSIMPLE/scripts/dump_gsimple_file.C\(\"/nova/data/flux/gsimple/nova_v03/ndos/mn/fhc/*q00*.root\"\)
 
 (actual script also available below, but also available to all in @~rhatcher/public@) to dump:
@@ -77,6 +79,7 @@ bc.    GSimpleNtpMeta 4 flavors:  -14 -12 12 14
 h3. Quick peek
 
 Alternatively, you can do a quick peek at the meta data by hand with:
+
 bc.    $ genie gsimple_input.root
 
 and then at the genie prompt type:
@@ -89,6 +92,7 @@ bc.    genie::flux::GSimpleNtpMeta* metaobj = new genie::flux::GSimpleNtpMeta;
 h2. Creating new GSimpleNtpFlux files by modifying an existing one
 
 One can create a new flux file by modifying entries between reading an entry and writing it to a new file.
+
 bc.   $ genie -b -q 'warp_gsimple.C+("gsimple_out.root","gsimple_in.root")'
 
 The user needs to modify the script's @warp_entry()@ and @warp_meta()@ functions to do whatever manipulation of the entries they desire.

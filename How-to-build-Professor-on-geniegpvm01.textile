@@ -39,6 +39,7 @@ bc. pip install matplotlib -t /path/to/your/local/matplotlib
 export PYTHONPATH=/path/to/your/local/matplotlib:$PYTHONPATH
 
 NOTE: One can check under interactive python if matplotlib is correctly installed:
+
 bc.. python
 >>> import matplotlib
 >>> exit()
@@ -50,10 +51,12 @@ p. .
 h3. STEP-4: Make sure iMinuit is installed
 
 Trying to import it under interactive python; if not, install it using pip:
+
 bc. pip install iMinuit -t /path/to/you/local/iMinuit
 export PYTHONPATH=/path/to/your/local/iMinuit:$PYTHONPATH
 
 Double check interactively if iMinuit is properly in your PYTHONPATH:
+
 bc. python
 >>> import iminuit
 >>> exit()
@@ -139,6 +142,7 @@ export PYTHONPATH=/path/to/Professor-2.2.2/lib/python2.7/site-packages:$PYTHONPA
 p. .
 
 Example: assuming that one is in the Professor-2.2.2 top dir, one can do as follows:
+
 bc. export PATH=$PWD/bin:$PATH
 export LD_LIBRARY_PATH=$PWD/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$PWD/lib/python2.7/site-packages:$PYTHONPATH
@@ -148,6 +152,7 @@ export PYTHONPATH=$PWD/lib/python2.7/site-packages:$PYTHONPATH
 bc. prof2-ncoeffs 3
 
 The output should look like the following:
+
 bc. Polynomial order     Minimum samples
          0                   1
          1                   4
@@ -188,6 +193,7 @@ export PATH=/path-to/YODA-1.6.7-install/bin:$PATH
 export PYTHONPATH=/path-to/YODA-1.6.7-install/lib/python2.7/site-packages:$PYTHONPATH
 
 E.g. to export PYTHONPATH from from the YODA-1.6.7-install top dir, one would do
+
 bc. export PYTHONPATH=$PWD/lib/python2.7/site-packages:$PYTHONPATH
 
 NOTE: Technically speaking NO YODA is needed to run prof2-ncoeffs, prof2-sample, prof2-ipol, or even prof2-tune.
@@ -202,6 +208,7 @@ bc. pip install pyDOE -t /path/to/you/local/pyDOE
 export PYTHONPATH=/path/to/your/local/pyDOE:$PYTHONPATH
 
 Double check interactively if pyDOE is properly in your PYTHONPATH:
+
 bc. python
 >>> import pyDOE
 >>> exit()
@@ -212,12 +219,14 @@ For those new to Professor and who wishes to see/learn its basics "in 5 minutes"
 https://cdcvs.fnal.gov/redmine/projects/professor-based-parameter-variation/wiki/Creating_Toy_DataMC#Seed-File-Structure
 
 NOTE: In order to try this example, you may need simpy package. If it is not in your environment, you may want to install it
+
 bc. pip  install   simpy -t /path/to/your/local/sympy
 export PYTHONPATH=/path/to/your/local/sympy:$PYTHONPATH
 
 The create_toy_data.py operates in YODA.
 
 However, the Root-based script would look as follows:
+
 bc.. #! /usr/bin/env python2.7
 """
 This is a script to create data for toy "problem" for professor
@@ -279,6 +288,7 @@ p. .
 h3. STEP-16: Try a mini-example (from Geant4)
 
 It's in the followng area:
+
 bc. /genie/app/yarba_j/Professor-Install-Trial/Geant4-FTF-Professor
 
 So please cd to that area, and take a look.
