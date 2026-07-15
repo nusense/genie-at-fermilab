@@ -70,7 +70,7 @@ h3. &lt;beamdir&gt;
 The &lt;beamdir&gt; defines the rotation matrix between the beam and user coordinates.  There are three ways of specifying this; use the one that is most convenient for the particular setup in question.  If in doubt about the result use the @PrintConfig()@ method to output the final result and verify that it is as you expect.
 
 The first approach is to specify the transformation as a series of rotations around various axes.  Getting this right is easiest if the transformation is a single rotation about one of the primary axes; going beyond this often leads to confusion about order and the correct sign.  An example might look like:
-bc.     <beamdir type="series">
+bc.     &lt;beamdir type="series"&gt;
        <rotation axis="x" units="rad"> -0.0582977560 </rotation>
        <!-- additional rotations might follow -->
     </beamdir>
