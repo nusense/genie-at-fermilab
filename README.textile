@@ -23,9 +23,10 @@ The GENIE code is available from @genie.hepforge.org@, but needs to be compiled 
 * "Auxillary UPS GENIE products":UPS-products-genie_phyopt-and-genie_xsec.textile
 * "Using GENIE UPS products under AlmaLinux9":Using-GENIE-UPS-products-under-AlmaLinux9.textile
 
-{{collapse(here be dragons)
+<details>
+<summary>(here be dragons)</summary>
 * "Building GENIE on your own: minimal build instructions...if you must...":Building-GENIE-on-your-own.textile
-}}
+</details>
 
 h2.  Cross-section splines
 
@@ -34,9 +35,10 @@ In order to use GENIE for event generation one must have generated cross-section
 * "UPS products genie_phyopt and genie_xsec":UPS-products-genie_phyopt-and-genie_xsec.textile
 * List of available pre-calculate spline sets as tarballs:  https://scisoft.fnal.gov/scisoft/packages/genie_xsec/
 
-{{collapse(here be more dragons)
+<details>
+<summary>(here be more dragons)</summary>
 * "Creating cross-section spline files":Creating-cross-section-spline-files.textile
-}}
+</details>
 
 h2.  Flux handling for GENIE and FNAL experiments
 
@@ -79,14 +81,7 @@ p{font-size:120%;color:red}.  This section is intended for the local developers 
 * "Running GENIE on grid":Running-GENIE-on-grid.textile
 * "Automated validation":Automated-validation.textile
 
-{{collapse(Click to Show Obsolete Validation Materials, Click to Hide Obsolete Validation Materials)
-
+<details>
+<summary>(Click to Show Obsolete Validation Materials, Click to Hide Obsolete Validation Materials)</summary>
 * "Legacy Validation":Legacy-validation.textile - obsolete
-
-}}
-
----
-
-{{collapse(View wiki structure...)
-  bq. {{child_pages}}
-}}
+</details>
