@@ -32,7 +32,7 @@ h2.  Cross-section splines
 In order to use GENIE for event generation one must have generated cross-section splines for any and all desired combinations of neutrino an flavor and nuclear isotope.   Versions of these spline files that are adequate for the FNAL experiments are distributed via UPS.
 
 * "UPS products genie_phyopt and genie_xsec":UPS-products-genie_phyopt-and-genie_xsec.textile
-* List of available pre-calculate spline sets:  https://cdcvs.fnal.gov/redmine/projects/nutools/wiki/GENIE_Configuration_Files
+* List of available pre-calculate spline sets as tarballs:  https://scisoft.fnal.gov/scisoft/packages/genie_xsec/
 
 {{collapse(here be more dragons)
 * "Creating cross-section spline files":Creating-cross-section-spline-files.textile

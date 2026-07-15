@@ -22,4 +22,4 @@ setup genie_xsec v3_04_00 -q AR2320j00000:e1000:k250
 # use the genie_xsec defined shell variables to ensure consistency
 gevgen --tune ${GENIE_XSEC_TUNE} --cross-sections ${GENIEXSECFILE} <other args>
 
-p.
+p. .
