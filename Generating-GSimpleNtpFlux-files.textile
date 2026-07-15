@@ -91,7 +91,8 @@ bc.   setup gsimple v3_00_06 -q e17:prof
 
 Command flags (given below) allow you to supply your own text file.
 
-{{collapse(old v2_8_6d instructions)
+<details>
+<summary>(old v2_8_6d instructions)</summary>
 
 %{color:red}NOTE: 2018-01-29  @/nusoft/app/alt/setup@ is no longer available on the grid nodes.  Use the new CVMFS installation.%
 
@@ -107,7 +108,7 @@ bc.   setup gsimple v2_8_6d -q e9:debug
 
 Command flags (given below) allow you to supply your own text file.
 
-}}
+</details>
 
 h4. submitting a job
 
@@ -227,12 +228,13 @@ as part of the header then processing will use that file (@myGNuMIFlux.xml@ in t
 
 h4. running older release
 
-{{collapse(ancient instructions)
+<details>
+<summary>(ancient instructions)</summary>
 
 bc.   setup_condor
   nova_jobsub -g -N 100 /grid/fermiapp/minos/sim/gsimple/requests/process_request.sh \
         -r mysetup.request -R /path/to/requestfile -x 25
 
-}}
+</details>
 
 h3. scripts
