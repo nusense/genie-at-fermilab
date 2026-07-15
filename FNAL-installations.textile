@@ -5,10 +5,10 @@ h1. Common FNAL Installations
 
 Most FNAL experiments have an installation of GENIE associated with their code releases.  This allows for a consistent build of their own code, any framework they depend on and GENIE.  By using "UPS":http://www.fnal.gov/docs/products/ups/ dependencies between products can be accounted for.
 
-NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed on a shared BlueArc disk:  @/nusoft/app@.   To setup GENIE without reference to any particular experiment one can use:
+NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed on various CVMFS disks:  To setup GENIE without reference to any particular experiment one can use:
 
-bc.   source /nusoft/app/externals/setup
-   ups setup genie v2_8_0 -q e2:debug
+bc.   source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
+   ups setup genie v3_06_02 -q e26:debug
 
 The GENIE product by itself isn't sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
 
@@ -20,26 +20,20 @@ bc.   ups list -aK+ genie
 
 which results in a list similar to:
 
-bc. "genie" "R-2_6_4" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "R-2_6_6" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v2_8_0" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v2_8_0" "Linux64bit+2.6-2.5" "e2:prof" ""
-"genie" "v3189" "Linux64bit+2.6-2.5" "nova" ""
-"genie" "v3249" "Linux64bit+2.6-2.5" "nova" ""
-"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nova" ""
-"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nu7" ""
-"genie" "v3334" "Linux64bit+2.6-2.5" "nova:prof" ""
-"genie" "v3334" "Linux64bit+2.6-2.5" "nu7:prof" ""
-"genie" "v3470" "Linux64bit+2.6-2.12" "debug:nu7" ""
-"genie" "v3470" "Linux64bit+2.6-2.5" "debug:nu7" ""
-"genie" "v3665" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v3665" "Linux64bit+2.6-2.5" "e2:prof" ""
-"genie" "v3665a" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v3665a" "Linux64bit+2.6-2.5" "e2:prof" ""
-"genie" "v3665b" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v3665b" "Linux64bit+2.6-2.5" "e2:prof" ""
-"genie" "v3665c" "Linux64bit+2.6-2.5" "debug:e2" ""
-"genie" "v3665c" "Linux64bit+2.6-2.5" "e2:prof" ""
+bc. ...
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "e26:geant4:prof" ""
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "e26:inclxx:prof" ""
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "debug:e26:geant4" ""
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "debug:e26" ""
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "debug:e26:inclxx" ""
+"genie" "v3_04_00i" "Linux64bit+3.10-2.17" "e26:prof" ""
+...
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "e26:inclxx:prof" ""
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "e26:prof" ""
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "debug:e26:geant4" ""
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "debug:e26:inclxx" ""
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "e26:geant4:prof" ""
+"genie" "v3_06_02" "Linux64bit+3.10-2.17" "debug:e26" ""
 
 h2.  UPS dependencies
 
@@ -47,38 +41,47 @@ bc.    ups depend genie v2_8_0 -q e2:debug
 
 shows the dependency tree:
 
-bc. genie v2_8_0 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-|__root v5_34_05 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2:nu
-|  |__geant4 v4_9_6_p01a -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-|  |  |__clhep v2_1_3_1 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-|  |  |  |__gcc v4_7_1 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals
-|  |  |__xerces_c v3_1_1 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-|  |  |__g4emlow v6_32 -f NULL -z /nusoft/app/externals
-|  |  |__g4neutron v4_2 -f NULL -z /nusoft/app/externals
-|  |  |__g4neutronxs v1_2 -f NULL -z /nusoft/app/externals
-|  |  |__g4nucleonxs v1_1 -f NULL -z /nusoft/app/externals
-|  |  |__g4photon v2_3 -f NULL -z /nusoft/app/externals
-|  |  |__g4pii v1_3 -f NULL -z /nusoft/app/externals
-|  |  |__g4radiative v3_6 -f NULL -z /nusoft/app/externals
-|  |  |__g4surface v1_0 -f NULL -z /nusoft/app/externals
-|  |__fftw v3_3_2 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:gcc47
-|  |__pythia v6_4_26 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:gcc47
-|  |__postgresql v9_1_5 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q gcc47
-|  |  |__python v2_7_3 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q gcc47
-|  |__mysql_client v5_5_27 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q e2
-|  |__libxml2 v2_8_0 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:gcc47
-|__lhapdf v5_8_8 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-|  |__pdfsets v5_8_8 -f NULL -z /nusoft/app/externals
-|__log4cpp v1_1 -f Linux64bit+2.6-2.5 -z /nusoft/app/externals -q debug:e2
-
+bc. $ ups_depend genie v3_06_02 -q e26:debug:geant4
+genie v3_06_02 -q debug:e26:geant4
+|__geant4 v4_11_0_p03e -q debug:e26
+|  |__clhep v2_4_7_1 -q debug:e26
+|  |  |__gcc v12_1_0
+|  |__xerces_c v3_2_3e -q e26
+|  |__g4abla v3_1
+|  |__g4emlow v8_0
+|  |__g4neutron v4_6
+|  |__g4particlexs v4_0
+|  |__g4nucleonxs v2_0
+|  |__g4nuclide v2_3
+|  |__g4photon v5_7
+|  |__g4pii v1_3
+|  |__g4radiative v5_6
+|  |__g4surface v2_2
+|  |__g4tendl v1_4
+|  |__g4incl v1_0
+|__root v6_28_12 -q debug:e26:p3915
+|  |__fftw v3_3_10
+|  |__gsl v2_7
+|  |__libxml2 v2_9_12
+|  |__nlohmann_json v3_11_2
+|  |__protobuf v3_21_12a -q e26
+|  |__numpy v1_24_3 -q e26:p3915
+|  |  |__python v3_9_15
+|  |  |  |__sqlite v3_40_01_00
+|  |  |__openblas v0_3_23 -q e26
+|  |__postgresql v15_3 -q p3915
+|  |__pythia v6_4_28x -q debug:e26
+|  |__tbb v2021_9_0 -q e26
+|  |__xrootd v5_5_5a -q debug:e26:p3915
+|     |__scitokens_cpp v1_0_1a -q e26:sql34001
+|__lhapdf v6_5_5 -q debug:e26:p3915
+|__pythia8 v8_3_15 -q debug:e26:p3915
+|  |__hepmc3 v3_3_1 -q debug:e26:p3915
+|__log4cpp v1_1_3e -q debug:e26
 
 h1. Experimental Releases
 
-On occasion there is a need to have a non-official UPS products; sometimes these are used for pre-release tests or to have a build from whence to generate cross-section splines (before the official build is available).  These will be put in @/nusoft/app/alt@
-
-bc.   source /nusoft/app/alt/setup.sh
-
-which will also setup the @/nusoft/app/externals@ UPS products area as well.
+On occasion there is a need to have a non-official UPS products; sometimes these are used for pre-release tests or to have a build from whence to generate cross-section splines (before the official build is available).  These will be put in @/cvmfs/fermilab.opensciencegrid.org/products/genie/local@ and are available when using @bootstrap_genie_ups.sh@
 
 h1. Doing it on your own
 

@@ -36,4 +36,4 @@ make all
 make install
 #. ../make_genie_nusoft_build -h -c -C -m --enable-lhapdf6 -i
 
-p.
+p. .
