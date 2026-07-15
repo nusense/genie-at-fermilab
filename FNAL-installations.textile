@@ -7,7 +7,7 @@ Most FNAL experiments have an installation of GENIE associated with their code r
 
 NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed on various CVMFS disks:  To setup GENIE without reference to any particular experiment one can use:
 
-bc.   source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
+bc.    source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
    ups setup genie v3_06_02 -q e26:debug
 
 The GENIE product by itself isn't sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
@@ -39,9 +39,9 @@ h2.  UPS dependencies
 
 bc.    ups depend genie v2_8_0 -q e2:debug
 
-shows the dependency tree:
+shows the dependency tree (here with installation info trimmed away):
 
-bc. $ ups_depend genie v3_06_02 -q e26:debug:geant4
+bc. $ ups depend genie v3_06_02 -q e26:debug:geant4
 genie v3_06_02 -q debug:e26:geant4
 |__geant4 v4_11_0_p03e -q debug:e26
 |  |__clhep v2_4_7_1 -q debug:e26
