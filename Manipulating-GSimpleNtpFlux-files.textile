@@ -98,3 +98,5 @@ bc.   $ genie -b -q 'warp_gsimple.C+("gsimple_out.root","gsimple_in.root")'
 The user needs to modify the script's @warp_entry()@ and @warp_meta()@ functions to do whatever manipulation of the entries they desire.
 
 h2. Example scripts
+
+Example scripts can be found in the @code_samples@ subdirectory.

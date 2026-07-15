@@ -60,21 +60,13 @@ h2.  Reading GENIE native format files
 
 * "reading ghep.root files":Reading-gheproot-files.textile
 
-
-
-
-h2. "Considerations When Generating Rock Events":Considerations-when-generating-rock-events.textile
-
-
-
-
 ---
 
 h1. Common questions
 
-h2. "What's the difference between gsimple and dk2nu (g4numi) fluxes":Whats-the-difference-between-gsimple-and-dk2nu-g4numi-fluxes.textile
-
-h2. "Getting a AR23_20j tune when I only have a AR23_20i one":Getting-a-AR23_20j-tune-when-I-only-have-a-AR23_20i-one.textile
+* "Considerations When Generating Rock Events":Considerations-when-generating-rock-events.textile
+* "What's the difference between gsimple and dk2nu (g4numi) fluxes":Whats-the-difference-between-gsimple-and-dk2nu-g4numi-fluxes.textile
+* "Getting a AR23_20j tune when I only have a AR23_20i one":Getting-a-AR23_20j-tune-when-I-only-have-a-AR23_20i-one.textile
 
 ---
 
@@ -82,17 +74,14 @@ h1. GENIE development work at Fermilab
 
 p{font-size:120%;color:red}.  This section is intended for the local developers and *not* end-users.
 
-h2. "CVMFS and UPS installations for development work":CVMFS-and-UPS-installations-for-development-work.textile
-
-h2. "How to build Professor on geniegpvm01":How-to-build-Professor-on-geniegpvm01.textile
-
-h2. "Running GENIE on grid":Running-GENIE-on-grid.textile
-
-h2. "Automated validation":Automated-validation.textile
+* "CVMFS and UPS installations for development work":CVMFS-and-UPS-installations-for-development-work.textile
+* "How to build Professor on geniegpvm01":How-to-build-Professor-on-geniegpvm01.textile
+* "Running GENIE on grid":Running-GENIE-on-grid.textile
+* "Automated validation":Automated-validation.textile
 
 {{collapse(Click to Show Obsolete Validation Materials, Click to Hide Obsolete Validation Materials)
 
-h2. - "Legacy Validation":Legacy-validation.textile - obsolete
+* "Legacy Validation":Legacy-validation.textile - obsolete
 
 }}
 

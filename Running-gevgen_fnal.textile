@@ -66,7 +66,7 @@ export EXPOSURE="-n 1000"     # number of events
 p. General, little known but important, note:
 
 bq. The ROOT TTree gtree in the "gntp.*.ghep.root" file contains within it a critical bit of information:
-gtree->GetWeight() returns the POTs used in generating the file's events
+@gtree->GetWeight()@ returns the POTs used in generating the file's events
 irrespective of whether then stopping condition was number of events or a POTs limit.
 
 h2. Running the Executable to Explore the Geometry
