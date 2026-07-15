@@ -14,11 +14,13 @@ The @GNuMIFlux@ code uses information found in the ntuple to generate neutrino r
 h2. Using the code
 
 The basics of using the code is to create and configure an object:
+
 bc.   genie::flux::GNuMIFlux* gnumi = new GNuMIFlux();
   gnumi->LoadBeamSimData(fluxfname,cfg);
   GFluxI* fdriver = dynamic_cast<GFluxI*>(gnumi);
 
 and then make repeated calls to generate neutrino rays:
+
 bc.   fdriver->GenerateNext();
 
 The two strings passed to @LoadBeamSimData()@ are a pattern that specifies _flux_ files to use and a parameter set name in a XML file.
@@ -70,7 +72,8 @@ h3. &lt;beamdir&gt;
 The &lt;beamdir&gt; defines the rotation matrix between the beam and user coordinates.  There are three ways of specifying this; use the one that is most convenient for the particular setup in question.  If in doubt about the result use the @PrintConfig()@ method to output the final result and verify that it is as you expect.
 
 The first approach is to specify the transformation as a series of rotations around various axes.  Getting this right is easiest if the transformation is a single rotation about one of the primary axes; going beyond this often leads to confusion about order and the correct sign.  An example might look like:
-bc.     &lt;beamdir type="series"&gt;
+
+bc.     <beamdir type="series">
        <rotation axis="x" units="rad"> -0.0582977560 </rotation>
        <!-- additional rotations might follow -->
     </beamdir>
@@ -78,6 +81,7 @@ bc.     &lt;beamdir type="series"&gt;
 Rotation units for this tag can be either _deg_ or _rad_ and the rotation specifies an axis about which to rotate.  A note about the rotation sign:  the MINOS NearDet sees a downward going beam (mixing _y_ and _z_) which is specified by a negative value as shown here to give the beam a negative _y_ component in the user frame.
 
 The second approach is to specify the beam coordinate's axes in the user system as a set of (&theta;,&phi;) pairs, ala a @GEANT3@ approach:
+
 bc.     <beamdir type="thetaphi3" units="deg">
       ( 90,        0 )  ( 86.65978462612, 90 ) ( 3.34021537388, 270 )
     </beamdir>
@@ -85,6 +89,7 @@ bc.     <beamdir type="thetaphi3" units="deg">
 Punctuation (i.e. parentheses and commas) aren't relevant and are only given for clarity; tags of this type need six values.
 
 The third and most unambiguous specification is to give the complete 3x3 matrix that would transform a direction vector in beam coordinates into one in user coordinates, ala a @Geant4@ approach:
+
 bc.     <beamdir type="newxyz">
      [ 1  0               0              ]
      [ 0  0.998301167046 -0.058264739543 ]
@@ -96,12 +101,14 @@ A column vector of directions in beam coordinates, when multiplied by this rotat
 h3. &lt;beampos&gt;
 
 The &lt;beampos&gt; specification is the second piece needed to complete the coordinate transformations.  There are two variants.  If specified with three values, these are the position of the beam origin in user coordinates:
+
 bc.     <!-- position of beam origin in user coords -->
     <beampos> 1.4828, 60.629225, -1034.72755 </beampos>
 
 Positions are transformed between coordinate systems by:   @xyz@ ~user~ = ( @scale@ @Rot@ ~3x3~ * @xyz@ ~beam~ ) + @xyz@ ~beampos~ where @scale@ is the ratio of user units (e.g. @m@) to beam units (@cm@).
 
 Alternatively it is sometimes easier to know a single point in space in both systems (6 values):
+
 bc.     <!-- position given as ( user coords ) = ( beam coords )                   -->
     <!-- both should be in user coord units, though                            -->
     <!-- convenient for MINOS-NearDet because it is how the survey is reported -->
@@ -113,6 +120,7 @@ As with &lt;beamdir&gt; punctuation is irrelevant but useful for clarity.
 h3. &lt;window&gt;
 
 The flux window on which neutrino rays will originate is given by specifying three points in user coordinate space.
+
 bc.     <window>
       <point coord="det"> -4.358, -2.903, -0.1835 </point>
       <point coord="det">  4.796, -2.903, -0.1835 </point>
@@ -128,6 +136,7 @@ In principle is should not matter whether the window is square to the beam direc
 h3. &lt;enumax&gt;
 
 e.g.
+
 bc.  <enumax> 120. 1.05 1.05 2500000 </enumax>
 
 The rejection method used by the de-weighting (importance and x-y over the window) needs an upper estimate of the neutrino energy.  By default it will attempt to guess a conservative value, but CPU cycles might be saved by helping this process along.
