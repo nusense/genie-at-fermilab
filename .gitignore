@@ -2,6 +2,8 @@
 *~
 *.swp
 *.bak
+#*
+.#*
 
 # MacOS-specific
 .DS_Store
