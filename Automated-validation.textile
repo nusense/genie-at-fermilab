@@ -5,7 +5,7 @@ h2. General Information
 
 GENIE AVS CI is GENIE Automated Validation Suite combined with the "Continuous Integration (CI) services":https://cdcvs.fnal.gov/redmine/projects/ci.
 
-The purpose of GENIE Validation Suite is to monitor, throughout the development process, the state of the GENIE core code and the evolution of the GENIE physics models, through the benchmark of the simulated results vs selected experimental data. 
+The purpose of GENIE Validation Suite is to monitor, throughout the development process, the state of the GENIE core code and the evolution of the GENIE physics models, through the benchmark of the simulated results vs selected experimental data.
 
 The same procedure and set of software tools is used to validate public GENIE releases (the latest release is R-3_00_02).
 
@@ -25,11 +25,11 @@ The procedure can be subdivided into 2 categories:
 *** Checkout from GitHub
 *** Build of all 3 packages
 *** Execution of Unit Tests
-*** "Operational" test which includes 
-a) generation of minimalistic cross section splines for the CCQE process 
-b) generation of 5 CCQE events using splines generated in a) 
-both are done for the Default tune   
-* GENIE Validation workflow is triggered weekly (on Friday&#39;s)
+*** "Operational" test which includes
+a) generation of minimalistic cross section splines for the CCQE process
+b) generation of 5 CCQE events using splines generated in a)
+both are done for the Default tune
+* GENIE Validation workflow is triggered weekly (on Friday's)
 ** GENIE build, Unit Tests, and "operational" test,  as described above
 ** Benchmark of GENIE generated predictions vs a variety of experimental datasets; the list of benchmarks can be found "here":https://cdcvs.fnal.gov/redmine/projects/genie_ci/wiki/grid_phase
 
@@ -43,13 +43,13 @@ h2. Some Tips on Interpreting GENIE CI Dashboard
 Each raw on the "GENIE CI dashboard":http://genie-ci-history.fnal.gov/GenieCI/app/view_builds/index corresponds to a separate workflow.
 Obviously, the workflows are shorter for the "on commit" builds and longer for the full blown GENIE AVS rounds.
 
-On the dashboard this is reflected wit the addition of the following: 
-* "setup_validation" section - preparation of the storage area in dCache, generation of job configuration files, etc. 
+On the dashboard this is reflected wit the addition of the following:
+* "setup_validation" section - preparation of the storage area in dCache, generation of job configuration files, etc.
 * one or several "ci_validation_<TuneID> sections (e.g. ci_validation_G18_02a_00_000, etc.)
 
 Each ci_validation_<TuneID> section is a folder on its own.
 If one clicks on it, one will be redirected to another monitoring board that corresponds to the validation of a given GENIE tune.
-Such validation procedure consists of multiple steps and includes generation of neutrino-nucleon, then neutrino-nucleus splines, generation of GENIE event files for various MC-data benchmarks, 
+Such validation procedure consists of multiple steps and includes generation of neutrino-nucleon, then neutrino-nucleus splines, generation of GENIE event files for various MC-data benchmarks,
 and the MC-data benchmarks themselves.
 They are named as dag_<NN>, where NN is the serial number of a particular step in the validation chain.
 The notation of "dag" is associated with the term DAGman (it is a meta-scheduler for HTCondor that menages dependencies between jobs at a high level).
@@ -60,14 +60,14 @@ h2. Some Tips on Navigating DoSSiER/GENIE-MINERvA Display
 
 "DoSSiER/GENIE-MINERvA":https://g4devel.fnal.gov:8181/DoSSiER/SelectGENIETest.xhtml should show the list of publications that the experimental data were taken from, along with the "default" plot of a GENIE-MINERvA benchmark. The "default" plot show results on single pi0 production, as simulated with R-2_12_10, compared vs MINERvA experimental data published in 2015.
 
-One can make other selections through the pull down menu&#39;s such as "Beam" (e.g. flux), "Reaction", "Observable", VersionTag", and "Model" (e.g. tune).
+One can make other selections through the pull down menu's such as "Beam" (e.g. flux), "Reaction", "Observable", VersionTag", and "Model" (e.g. tune).
 
 As an exercise, one can deselect VersionTag R-2_12_10 and select R-3_00_02 instead, then deselect Model (tune) G00_00a_00_000 and select G18_02a_00_00_000, G18_02a_02_11am and G18_10j_00_000, to see how different tunes benchmark vs each other and vs experimental data, for this particular distribution (dSigma/dtheta ion the secondary pi0).
 
-One can also see other distributions by selecting another Beam (flux), Reaction, and Observable. 
+One can also see other distributions by selecting another Beam (flux), Reaction, and Observable.
 
-Results will be displayed only if a combination of choices is valid (i.e. there&#39;re corresponding results).
-E.g. if one chooses tune G00_00a_00_000 and release (VersionTag) R-3_00_02, the output will be empty (in other words, an "educated user" is anticipated). 
+Results will be displayed only if a combination of choices is valid (i.e. there're corresponding results).
+E.g. if one chooses tune G00_00a_00_000 and release (VersionTag) R-3_00_02, the output will be empty (in other words, an "educated user" is anticipated).
 
 h2. How to Launch GENIE AVS CI
 

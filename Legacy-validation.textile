@@ -11,7 +11,7 @@ h2. Step by step
 
 h3. Builds
 
-* go to https://buildmaster.fnal.gov/view/GENIE/job/jenkinsTest/ 
+* go to https://buildmaster.fnal.gov/view/GENIE/job/jenkinsTest/
 * choose Build with Parameters
 * choose the branch, e.g. @branches/R-2_10_6@ or @trunk@
 * every time build is called, svn repository is checked out, chosen branch is compiled and artifact is created
@@ -23,24 +23,22 @@ h3. Run legacy validation:
 * go to @/grid/fermiapp/genie/legacyValidation/@
 * run @runLegacyValidation.py@, e.g.
 
-<pre>
-./runLegacyValidation.py --genie_tag trunk --run_path /grid/fermiapp/genie/legacyValidation/runGENIE.sh --builds /grid/fermiapp/genie/builds/ --output /pnfs/genie/scratch/users/goran/legacyValidation
-</pre>
+bc. ./runLegacyValidation.py --genie_tag trunk --run_path /grid/fermiapp/genie/legacyValidation/runGENIE.sh --builds /grid/fermiapp/genie/builds/ --output /pnfs/genie/scratch/users/goran/legacyValidation
 
 * first the script will grab the last artifact for @--genie_tag@ (note, you can specified build date by hand using @--build_date@ flag)
 * it will be saved / extracted in @--builds@ folder (note, this step is skipped if the build already exists in the folder)
 * @--run_path@ is required; it gives the path to @runGENIE.sh@ script which is used to run every GENIE job at grid (it handles copying input files, running GENIE command and copying output to pnfs)
 * the results will be saved in @--output@ folder under @[branch]/[build date]@ with the following structure
 
-<pre>
-├── events                                           # ROOT files with event trees
+
+.bc ├── events                                           # ROOT files with event trees
 │   ├── hadronization                                # used for hadronitzation test
 │   ├── mctest                                       # used for "sanity" test
 │   ├── repeatability                                # used for repeatability test
 │   └── xsec_validation                              # used for xsec validation
 ├── legacyValidation-[branch]-[build date].dag       # this is a jobsub dag file which will be submitted
 ├── reports                                          # final results
-│   ├── hadronization_test                           
+│   ├── hadronization_test
 │   │   └── file_list-[branch]-[build date].xml      # this is filelist xml file genrated automatically to be used for hadronization test jobs
 │   ├── repeatability_test
 │   ├── sanity_mctest
@@ -50,24 +48,19 @@ h3. Run legacy validation:
 └── xsec                                             # xsec splines
     ├── nuA                                          # for nuclei
     └── nuN                                          # for nucleons
-</pre>
 
 h3. Run branches comparison
 
 * go to @/grid/fermiapp/genie/legacyValidation/@
 * run @compare.py@, e.g.
 
-<pre>
-./compare.py --builds /grid/fermiapp/genie/builds/ --genie_tags &#39;R-2_10_6 R-2_10_8&#39; --genie_dates &#39;2016-04-04 2016-05-12&#39; --top_dir /pnfs/genie/persistent/users/goran/legacyValidation/ --comp_path /grid/fermiapp/genie/legacyValidation/runCompare.sh
-</pre>
+bc. ./compare.py --builds /grid/fermiapp/genie/builds/ --genie_tags 'R-2_10_6 R-2_10_8' --genie_dates '2016-04-04 2016-05-12' --top_dir /pnfs/genie/persistent/users/goran/legacyValidation/ --comp_path /grid/fermiapp/genie/legacyValidation/runCompare.sh
 
 * it needs path to @$GENIE/bin@, it will use @--builds/[first provided tag]@
 * it will look for the results in @--top_dir@ assuming the folder structure explained above, in this case:
 
-<pre>
-/pnfs/genie/persistent/users/goran/legacyValidation/R-2_10_6/2016-04-04
+bc. /pnfs/genie/persistent/users/goran/legacyValidation/R-2_10_6/2016-04-04
 /pnfs/genie/persistent/users/goran/legacyValidation/R-2_10_8/2016-05-12
-</pre>
 
 * @--comp_path@ flag is required; it gives the path to runCompare.sh script which is used to run GENIE validation apps (not at grid)
 * results are saved in @pwd@

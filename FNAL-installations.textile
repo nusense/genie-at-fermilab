@@ -10,7 +10,7 @@ NOvA and the LArSoft-based (liquid argon) experiments use UPS products installed
 bc.   source /nusoft/app/externals/setup
    ups setup genie v2_8_0 -q e2:debug
 
-The GENIE product by itself isn&#39;t sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
+The GENIE product by itself isn't sufficient for generating events out-of-the-box; the primary deterrent is the lack of cross-sections splines.  These are generated using GENIE tools, but are CPU intensive to create and need to be tailored to particular needs of the experiments (e.g. combinations of neutrino flavors and nuclear isotopes).   Generally there should be an accompanying "UPS products to supply cross-sections and tweak the physics options":UPS-products-genie_phyopt-and-genie_xsec.textile
 
 h2.  What versions are available
 
@@ -20,26 +20,26 @@ bc.   ups list -aK+ genie
 
 which results in a list similar to:
 
-bc. "genie" "R-2_6_4" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "R-2_6_6" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v2_8_0" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v2_8_0" "Linux64bit+2.6-2.5" "e2:prof" "" 
-"genie" "v3189" "Linux64bit+2.6-2.5" "nova" "" 
-"genie" "v3249" "Linux64bit+2.6-2.5" "nova" "" 
-"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nova" "" 
-"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nu7" "" 
-"genie" "v3334" "Linux64bit+2.6-2.5" "nova:prof" "" 
-"genie" "v3334" "Linux64bit+2.6-2.5" "nu7:prof" "" 
-"genie" "v3470" "Linux64bit+2.6-2.12" "debug:nu7" "" 
-"genie" "v3470" "Linux64bit+2.6-2.5" "debug:nu7" "" 
-"genie" "v3665" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v3665" "Linux64bit+2.6-2.5" "e2:prof" "" 
-"genie" "v3665a" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v3665a" "Linux64bit+2.6-2.5" "e2:prof" "" 
-"genie" "v3665b" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v3665b" "Linux64bit+2.6-2.5" "e2:prof" "" 
-"genie" "v3665c" "Linux64bit+2.6-2.5" "debug:e2" "" 
-"genie" "v3665c" "Linux64bit+2.6-2.5" "e2:prof" "" 
+bc. "genie" "R-2_6_4" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "R-2_6_6" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v2_8_0" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v2_8_0" "Linux64bit+2.6-2.5" "e2:prof" ""
+"genie" "v3189" "Linux64bit+2.6-2.5" "nova" ""
+"genie" "v3249" "Linux64bit+2.6-2.5" "nova" ""
+"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nova" ""
+"genie" "v3334" "Linux64bit+2.6-2.5" "debug:nu7" ""
+"genie" "v3334" "Linux64bit+2.6-2.5" "nova:prof" ""
+"genie" "v3334" "Linux64bit+2.6-2.5" "nu7:prof" ""
+"genie" "v3470" "Linux64bit+2.6-2.12" "debug:nu7" ""
+"genie" "v3470" "Linux64bit+2.6-2.5" "debug:nu7" ""
+"genie" "v3665" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v3665" "Linux64bit+2.6-2.5" "e2:prof" ""
+"genie" "v3665a" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v3665a" "Linux64bit+2.6-2.5" "e2:prof" ""
+"genie" "v3665b" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v3665b" "Linux64bit+2.6-2.5" "e2:prof" ""
+"genie" "v3665c" "Linux64bit+2.6-2.5" "debug:e2" ""
+"genie" "v3665c" "Linux64bit+2.6-2.5" "e2:prof" ""
 
 h2.  UPS dependencies
 

@@ -66,17 +66,17 @@ versions of GENIE
 
 Robert.
 
-3. script to build GENIE - use Robert&#39;s? - or lamp
+3. script to build GENIE - use Robert's? - or lamp
 
 Julia.
 
-4. make work on buildmaster build service 
+4. make work on buildmaster build service
 
 Julia.
 
 5. push GENIE after successful build to CVMFS (and test with Bluearc)  (see
 step 1 for how to do this) - push to bluearc first - or first copy elsewhere
-in buildmaster 
+in buildmaster
 
 Tomek.
 
@@ -92,7 +92,7 @@ Tomek.
 
 Gabe will look at storage requst.
 
-9. Launch jobs on the grid with GENIE VO - need to put output in 
+9. Launch jobs on the grid with GENIE VO - need to put output in
 
 Tomek and Robert.
 

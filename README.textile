@@ -50,13 +50,13 @@ Future "flux" file are to be migrated to using the @dk2nu@ ntuple format:  https
 
 h2.  Running @gevgen_fnal@
 
-In many cases @genie@ event generation will occur as a stage embedded in the @art@ framework.  Information on that can be found as part of the @nutools@ and/or @nugen@ project ( https://cdcvs.fnal.gov/redmine/projects/nutools/wiki and https://cdcvs.fnal.gov/redmine/projects/nugen ).  
+In many cases @genie@ event generation will occur as a stage embedded in the @art@ framework.  Information on that can be found as part of the @nutools@ and/or @nugen@ project ( https://cdcvs.fnal.gov/redmine/projects/nutools/wiki and https://cdcvs.fnal.gov/redmine/projects/nugen ).
 
 * "running gevgen_fnal":Running-gevgen_fnal.textile
 
 * "gevgen_fnal with alternative fiducial cylinders":gevgen_fnal-with-alternative-fiducial-cylinders.textile
 
-h2.  Reading GENIE native format files 
+h2.  Reading GENIE native format files
 
 * "reading ghep.root files":Reading-gheproot-files.textile
 
@@ -72,7 +72,7 @@ h2. "Considerations When Generating Rock Events":Considerations-when-generating-
 
 h1. Common questions
 
-h2. "What&#39;s the difference between gsimple and dk2nu (g4numi) fluxes":Whats-the-difference-between-gsimple-and-dk2nu-g4numi-fluxes.textile
+h2. "What's the difference between gsimple and dk2nu (g4numi) fluxes":Whats-the-difference-between-gsimple-and-dk2nu-g4numi-fluxes.textile
 
 h2. "Getting a AR23_20j tune when I only have a AR23_20i one":Getting-a-AR23_20j-tune-when-I-only-have-a-AR23_20i-one.textile
 

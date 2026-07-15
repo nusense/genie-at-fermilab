@@ -3,24 +3,23 @@ h1. Using GENIE UPS products under AlmaLinux9
 
 h2. Do something along the lines of:
 
-<pre>
-# we have to run in a SLF7 container because we’re using UPS
+bc.. # we have to run in a SLF7 container because we’re using UPS
 /cvmfs/oasis.opensciencegrid.org/mis/apptainer/current/bin/apptainer shell --shell=/bin/bash -B /cvmfs,/grid/fermiapp,/exp,/nashome,/opt,/run/user,/etc/hostname,/etc/hosts,/etc/krb5.conf --ipc --pid /cvmfs/singularity.opensciencegrid.org/fermilab/fnal-dev-sl7:latest
- 
+
 # make sure UPS uses SL7 as the architecture rather than the underlying AL9
 export UPS_OVERRIDE="-H Linux64bit+3.10-2.17"
- 
+
 source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
- 
+
 # setup the INCL aware, optimized (prof) version of GENIE
 # the + in the qualifiers makes sure that “inclxx” is respected as a requirement
 setup genie v3_04_02 -q prof:e26:+inclxx
- 
+
 # setup GENIE cross-section with the specified version and qualifiers
 setup genie_xsec v3_04_00 -q AR2320j00000:e1000:k250
- 
+
 # run the genie application, here I’m using gevgen
 # use the genie_xsec defined shell variables to ensure consistency
 gevgen --tune ${GENIE_XSEC_TUNE} --cross-sections ${GENIEXSECFILE} <other args>
 
-</pre>
+p.

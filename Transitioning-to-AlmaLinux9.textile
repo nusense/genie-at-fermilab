@@ -3,36 +3,30 @@ h1. Transitioning to AlmaLinux9
 
 h2. Short/Medium Term use of SL7 Containerization
 
-i&#39;m working to test standard SL7 containers in our workflow. 
+I'm working to test standard SL7 containers in our workflow.
 
-<pre>
-ssh geniegpvm-test-al9.fnal.gov
+bc. ssh geniegpvm-test-al9.fnal.gov
 apptainer shell -B /cvmfs -B /run/user -B /genie/app -B /grid/fermiapp/products/genie -B /grid/fermiapp/genie  /cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest
-</pre>
 
-note that i&#39;m mounting /run/user because that allows SSH agent forwarding to work seamlessly.
+note that I'm mounting /run/user because that allows SSH agent forwarding to work seamlessly.
 
-<pre>
-source /grid/fermiapp/products/genie/bootstrap_genie_ups.sh
+bc.. source /grid/fermiapp/products/genie/bootstrap_genie_ups.sh
 # source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
 
 setup genie v3_04_00 -q debug:e20:inclxx
 setup genie_phyopt v3_04_00 -q dkcharmtau
 setup genie_xsec v3_04_00 -q AR2320i00000:e1000:k250
 
-
 cd /genie/app/users/$USER
 
 rm test.ghep.root
 # gevgen -r 1 -n 100 -e0,10 -f /genie/app/users/rhatcher/hdk2nu.root,hdnear  -p 14 -t 1000080160 -o test.ghep.root --cross-sections $GENIEXSECFILE --tune $GENIE_XSEC_TUNE
-gevgen -r 1 -n 100 -e0,10 -f &#39;x&#39;  -p 14 -t 1000080160 -o test.ghep.root --cross-sections $GENIEXSECFILE --tune $GENIE_XSEC_TUNE
+gevgen -r 1 -n 100 -e0,10 -f 'x'  -p 14 -t 1000080160 -o test.ghep.root --cross-sections $GENIEXSECFILE --tune $GENIE_XSEC_TUNE
 gevdump -f test.ghep.root
 
+p. Test of another workflow:
 
-Test of another workflow:  
-
-<pre>
-setup genie master-ref -q e20:debug
+bc.. setup genie master-ref -q e20:debug
 
 cd $GENIE
 make distclean
@@ -42,5 +36,4 @@ make all
 make install
 #. ../make_genie_nusoft_build -h -c -C -m --enable-lhapdf6 -i
 
-</pre>
-
+p.

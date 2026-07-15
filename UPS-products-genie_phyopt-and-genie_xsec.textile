@@ -9,7 +9,7 @@ This UPS product provides a standardized way of packaging an alternative @UserPh
 
 the basic thought is users (or expts) would invoke:
 
-bc.  setup genie <version> -q <qualifier>
+bc.   setup genie <version> -q <qualifier>
   setup genie_phyopt <version> -q dkcharmtau
 
 which would put in the @$GXMLPATH@ a @UserPhysicsOptions.xml@ file that has been modified to have GENIE decay charm and tau particles
@@ -22,7 +22,7 @@ This UPS product provides a standardized way of packaging genie cross-section sp
 
 the basic thought is users (or expts) would invoke:
 
-bc.  setup genie <version> -q <qualifier>
+bc.   setup genie <version> -q <qualifier>
   setup genie_xsec <version> -q default
 
 h3. Allowable isotopes
@@ -78,7 +78,7 @@ bc.  ionlist = {
 But those only exist in the @$GENIEXSECPATH/gxspl-FNALbig.xml.bz2@ (but would need to be uncompressed for GENIE to read them.  
 The @gxspl-FNALsmall.xml@ file pointed to by @$GENIEXSECFILE@ only has:
 
-bc.  tgtkeep[1000000010] = 1;  # free-n
+bc.   tgtkeep[1000000010] = 1;  # free-n
   tgtkeep[1000010010] = 1;  # H1
   tgtkeep[1000020040] = 1;  # He4
   tgtkeep[1000040090] = 1;  # Be9  # only v2.8.6a and beyond
@@ -120,7 +120,7 @@ bc. 1436895706 WARN GEVGDriver : [n] <GEVGDriver.cxx::UseSplines (602)> : *** At
 lar: GEVGDriver.cxx:492: void genie::GEVGDriver::CreateXSecSumSpline(int, double, double, bool): Assertion `fUseSplines' failed.
 
 
-The @nu:12;tgt:1000160310;@ identifies what combination of probe and target couldn't be found in the spline file.  In this case, &amp;nu; ~&amp;mu;~ off of (Z=16,A=31), an isotope of sulfur with a half-life of 2.572 seconds.
+The @nu:12;tgt:1000160310;@ identifies what combination of probe and target couldn't be found in the spline file.  In this case, &nu; ~&mu;~ off of (Z=16,A=31), an isotope of sulfur with a half-life of 2.572 seconds.
 
 ----
 

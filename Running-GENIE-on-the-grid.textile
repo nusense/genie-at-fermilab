@@ -5,46 +5,40 @@ h2. Basic commands
 
 * Log into geniegpvm:
 
-<pre>ssh geniegpvm01.fnal.gov</pre>
+bc. ssh geniegpvm01.fnal.gov
 
 * Log into geniegpvm as geniepro:
 
-<pre>ssh geniegpvm01.fnal.gov -l geniepro (or ssh geniepro@geniegpvm01.fnal.gov)</pre>
+bc. ssh geniegpvm01.fnal.gov -l geniepro (or ssh geniepro@geniegpvm01.fnal.gov)
 
 * Set up jobsub client:
 
-<pre>
-source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setups.sh
+bc. source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setups.sh
 setup jobsub_client
-</pre>
 
 * Run the job:
 
-<pre>jobsub_submit -G [GROUP] -M --OS=SL6 --resource-provides=usage_model=[RESOURCES] [PATH_TO_SCRIPT] [SCRIPT&#39;S ARGUMENTS]</pre>
+bc. jobsub_submit -G [GROUP] -M --OS=SL6 --resource-provides=usage_model=[RESOURCES] [PATH_TO_SCRIPT] [SCRIPT'S ARGUMENTS]
 
 > [GROUP] = genie or fermilab
 > [RESOURCES] = DEDICATED,OPPORTUNISTIC or OFFSITE or DEDICATED,OPPORTUNISTIC,OFFSITE (onsite or OSG or both, respectively)
 > [PATH_TO_SCRIPT] = absolute or relative path to the file (file:///absolute/path/to/script or file://script)
-> [SCRIPT&#39;S ARGUMENTS] = everything after path to script is assumed to be its arguments list
+> [SCRIPT'S ARGUMENTS] = everything after path to script is assumed to be its arguments list
 
 * Copy files from a working node to scratch area:
 
-<pre>
-source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setups.sh
+bc. source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setups.sh
 setup ifdhc
 ifdh cp [source] [destination]
-</pre>
 
-> [source] = works like regular &#39;cp&#39; command, use -r for directories etc.
+> [source] = works like regular 'cp' command, use -r for directories etc.
 > [destination] = "/pnfs/genie/scratch/users/..." (if run as genie group) or "/pnfs/fermilab/volatile/genie/..." (if run as fermilab group)
 
 h2. Example - generate splines
 
 * setupGENIE.sh
 
-<pre>
-
-##### PATH TO #####
+bc.. ##### PATH TO #####
 
 #GENIEBASE=/grid/fermiapp/genie/ # OSG can not see this area
 
@@ -66,12 +60,12 @@ setup log4cpp v1_1_1b -q debug:e7
 
 export LD_LIBRARY_PATH=$GENIE/lib:$LD_LIBRARY_PATH
 export PATH=$GENIE/bin:$PATH
-</pre>
+
+.p 
 
 * generateSplines.sh
 
-<pre>
-##### SETUP GENIE #####
+bc.. ##### SETUP GENIE #####
 
 source /path/to/setupGENIE.sh # must be in /cvmfs/fermilab.opensciencegrid.org/genie/ for OSG
 
@@ -81,7 +75,7 @@ mkdir -p splines
 
 ##### RUN GENIE #####
 
-$GENIE/bin/gmkspl -p [incident PDG] -t [target PDG] -o &#39;splines/mySpline.xml&#39; [whatever other option I want to use]
+$GENIE/bin/gmkspl -p [incident PDG] -t [target PDG] -o 'splines/mySpline.xml' [whatever other option I want to use]
 
 ##### SET UP IFDHC #####
 
@@ -91,19 +85,19 @@ setup ifdhc
 ##### COPY RESULTS TO /PNFS #####
 
 ifdh cp -r splines /pnfs/genie/scratch/users/...
-</pre>
+
+p. .
 
 * Submit the job:
 
-<pre>jobsub_submit -G genie -M --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE file://generateSplines.sh</pre>
+bc. jobsub_submit -G genie -M --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE file://generateSplines.sh
 
 
 h2. Example - xml splines to ROOT format
 
 * splinesToRoot.sh
 
-<pre>
-##### SETUP GENIE #####
+bc.. ##### SETUP GENIE #####
 
 source /path/to/setupGENIE.sh # must be in /cvmfs/fermilab.opensciencegrid.org/genie/ for OSG
 
@@ -122,54 +116,52 @@ mkdir -p rootSplines
 
 ##### CONVERT SPLINES #####
 
-$GENIE/bin/gspl2root -p [incident PDG] -t [target PDG] -f &#39;splines/mySpline.xml&#39; -o &#39;rootSplines/mySpline.root&#39; [whatever other option I want to use]
+$GENIE/bin/gspl2root -p [incident PDG] -t [target PDG] -f 'splines/mySpline.xml' -o 'rootSplines/mySpline.root' [whatever other option I want to use]
 
 ##### COPY RESULTS TO /PNFS #####
 
 ifdh cp -r rootSplines /pnfs/genie/scratch/users/...
-</pre>
+
+p. .
 
 h2. DAG
 
 In order to run a sequence of jobs one can use jobsub DAG:
 
-<pre>jobsub_submit_dag -G [GROUP] [PATH_TO_DAG_FILE]</pre>
+bc. jobsub_submit_dag -G [GROUP] [PATH_TO_DAG_FILE]
 
 > [GROUP] = genie or fermilab
 > [PATH_TO_DAG_FILE] = absolute or relative path to the file (file:///absolute/path/to/dag_file or file://dag_file)
 
 * Serial jobs within DAG file
 
-<pre>
-<serial>
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_1] [SCRIPT_1&#39;S ARGUMENTS]
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_2] [SCRIPT_2&#39;S ARGUMENTS]
-
+bc.. <serial>
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_1] [SCRIPT_1'S ARGUMENTS]
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_2] [SCRIPT_2'S ARGUMENTS]
 ...
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_N] [SCRIPT_N&#39;S ARGUMENTS]
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_N] [SCRIPT_N'S ARGUMENTS]
 </serial>
-</pre>
+
+p. .
 
 * Parallel jobs within DAG file
 
-<pre>
-<parallel>
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_1] [SCRIPT_1&#39;S ARGUMENTS]
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_2] [SCRIPT_2&#39;S ARGUMENTS]
-
+bc.. <parallel>
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_1] [SCRIPT_1'S ARGUMENTS]
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_2] [SCRIPT_2'S ARGUMENTS]
 ...
-jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_N] [SCRIPT_N&#39;S ARGUMENTS]
+jobsub -n [JOBSUB_SERVER_OPTIONS] [PATH_TO_SCRIPT_N] [SCRIPT_N'S ARGUMENTS]
 </parallel>
-</pre>
 
-> *Please note &#39;-n&#39; flag which is required in jobsub dag command!!!*
+p. .
+
+> *Please note '-n' flag which is required in jobsub dag command!!!*
 > [JOBSUB_SERVER_OPTIONS] = like for jobsub_submit (-G [GROUP] --OS=SL6 --resource-provides=usage_model=[RESOURCES]...)
-> [PATH_TO_SCRIPT_i] [SCRIPT_i&#39;S ARGUMENTS] = like for jobsub_submit
+> [PATH_TO_SCRIPT_i] [SCRIPT_i'S ARGUMENTS] = like for jobsub_submit
 
 * DAG example (onsite)
 
-<pre>
-# generate cross section splines for different dynamics in parallel mode
+bc. # generate cross section splines for different dynamics in parallel mode
 <parallel>
 jobsub -n -G genie --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC file:///my/path/to/ccqe_splines.sh
 jobsub -n -G genie --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC file:///my/path/to/res_splines.sh
@@ -183,32 +175,25 @@ jobsub -n -G genie --OS=SL6 --resource-provides=usage_model=DEDICATED,OPPORTUNIS
 <parallel>
 # etc
 </parallel>
-</pre>
 
 h2. CRON JOBS
 
 * Run this before you call your cron job as geniepro (I am not 100% sure, but time-life is 12h?)
 
-<pre>voms-proxy-init -rfc -cert /opt/geniepro/geniegpvm01.fnal.gov.x509.pem -key /opt/geniepro/request.key -out /opt/geniepro/proxy -voms fermilab:/fermilab/genie/Role=Production</pre>
+bc. voms-proxy-init -rfc -cert /opt/geniepro/geniegpvm01.fnal.gov.x509.pem -key /opt/geniepro/request.key -out /opt/geniepro/proxy -voms fermilab:/fermilab/genie/Role=Production
 
 * At this point, geniepro runs it at midnight (one minute before running the job)
 
-<pre>
-00 00  * * * voms-proxy-init -rfc -cert /opt/geniepro/geniegpvm01.fnal.gov.x509.pem -key /opt/geniepro/request.key -out /opt/geniepro/proxy -voms fermilab:/fermilab/genie/Role=Production
-</pre>
+bc. 00 00  * * * voms-proxy-init -rfc -cert /opt/geniepro/geniegpvm01.fnal.gov.x509.pem -key /opt/geniepro/request.key -out /opt/geniepro/proxy -voms fermilab:/fermilab/genie/Role=Production
 
 * Any cron job must be preceded by /usr/krb5/bin/kcron
 
-<pre>
-00 01 * * * /usr/krb5/bin/kcron /grid/fermiapp/genie/scripts/updateBuilds.sh
-</pre>
+bc. 00 01 * * * /usr/krb5/bin/kcron /grid/fermiapp/genie/scripts/updateBuilds.sh
 
 * Script must contain
 
-<pre>
-export PATH=$PATH:/usr/krb5/bin/
+bc. export PATH=$PATH:/usr/krb5/bin/
 export X509_USER_PROXY=/opt/geniepro/proxy # for geniepro
-</pre>
 
 h1. Legacy Validation
 

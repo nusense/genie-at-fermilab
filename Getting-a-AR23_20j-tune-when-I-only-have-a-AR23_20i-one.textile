@@ -1,7 +1,7 @@
 
 h1. Getting a @AR23_20j@ tune when I only have a @AR23_20i@ one
 
-GENIE (as of @R-3_04_02@) doesn&#39;t come with a @AR23_20j@ tune, but it does come with @AR23_20i@.   What do I do?
+GENIE (as of @R-3_04_02@) doesn't come with a @AR23_20j@ tune, but it does come with @AR23_20i@.   What do I do?
 
 h2. A few words about  Comprehensive Model Configurations (CMC) and Tunes
 
@@ -12,28 +12,22 @@ Beneath this directory are sub-directories of the form @AAYY_NNa_xxx_yy@ which c
 h2.  Create a new CMC/Tune
 
 In the case under consideration we solely want to change the FSI model relative to @AR23_20i@.   For this we need a new CMC directory.  Generally the @${GENIE}/config@ directory is not writable, so we will have to locate it elsewhere.
-We can start by copying the files from the @AR23_20i@ CMC:  It&#39;s best, for reasons we&#39;ll see later, if the @${WORKAREA}@ is a clean directory with no other contents.
-<pre>
-cd ${WORKAREA}
+We can start by copying the files from the @AR23_20i@ CMC:  It's best, for reasons we'll see later, if the @${WORKAREA}@ is a clean directory with no other contents.
+bc. cd ${WORKAREA}
 cp -va $GENIE/config/AR23_20i ./AR23_20j
-</pre>
 
 h2. Modify the FSI model to use
 
-We&#39;re only changing the FSI model so the necessary change is quite trivial
-<pre>
-cd AR23_20j
-sed -i -e &#39;s/HAIntranuke2018/HNIntranuke2018/g&#39; ModelConfiguration.xml
+We're only changing the FSI model so the necessary change is quite trivial
+bc. cd AR23_20j
+sed -i -e 's/HAIntranuke2018/HNIntranuke2018/g' ModelConfiguration.xml
 cd ..
-</pre>
 
 h2. Prepare to use the new CMC/Tune
 
 GENIE normally looks for CMCs in the @GENIE/config@ path, so we must tell it the alternative location:
 
-<pre>
-export GXMLPATH=${WORKAREA}:${GXMLPATH}
-</pre>
+bc. export GXMLPATH=${WORKAREA}:${GXMLPATH}
 
 Note, that if GENIE is going to be run on a grid node that this location *must* be accessible such as a CVMFS path or a directory copied to the worker node by other means.
 
@@ -41,9 +35,7 @@ h2.  Special case for spline files with FSI change
 
 In the case where the _only_ change is that of the FSI model, then the cross section spline file does not need re-calculation, but _does_ need to be modified.   Generally it is useful to locate this new file adjacent to the tune. -- this is done for cases in UPS where the tune is non-standard by co-locating the spline file with the CMC/tune configuration files along the lines of:
 
-<pre>
-cat /location/of/AR23_20i/my_spline_file.xml | sed -e &#39;s/AR23_20i/AR23_20j/g&#39; > ${WORKDIR}/my_new_spline_file.xml
-</pre>
+bc. cat /location/of/AR23_20i/my_spline_file.xml | sed -e 's/AR23_20i/AR23_20j/g' > ${WORKDIR}/my_new_spline_file.xml
 
 One can reuse the file name if the _new_ location ( @$WORKDIR@ ) is cleanly separated from other files and directories.
 
@@ -52,11 +44,10 @@ h1.  Putting it all together
 
 To facilitate all this I have done the above steps and packaged @AR23_20j_00_000@ as a UPS product that can be setup:
 
-<pre>
-# bootstrap UPS and various areas:
+bc.. # bootstrap UPS and various areas:
 source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh
-# ensure that the right UPS area is included:  
-echo $PRODUCTS | tr : &#39;\n&#39; | grep genie/local
+# ensure that the right UPS area is included:
+echo $PRODUCTS | tr : '\n' | grep genie/local
 # should include /cvmfs/fermilab.opensciencegrid.org/products/genie/local
 # if not add that path to the colon separated $PRODUCTS shell variable
 
@@ -65,7 +56,7 @@ setup genie_xsec v3_04_00 -q AR2320j00000:e1000:k250
 
 # what one should see:
 
-echo $GXMLPATH/ | tr : &#39;\n&#39; | grep AR23
+echo $GXMLPATH/ | tr : '\n' | grep AR23
 # /cvmfs/fermilab.opensciencegrid.org/products/genie/local/genie_xsec/v3_04_00/NULL/AR2320j00000-k250-e1000/data/
 
 echo $GENIEXSECFILE
@@ -73,36 +64,25 @@ echo $GENIEXSECFILE
 
 echo $GENIE_XSEC_TUNE
 # AR23_20j_00_000
-</pre>
 
+p. .
 
 h2. More AR23_20x FSI choices
 
-Two other choices for Final State Interactions are INCL++ and Geant4&#39;s Bertini Cascade.   These use additional external libraries and thus must use different builds of GENIE.
+Two other choices for Final State Interactions are INCL++ and Geant4's Bertini Cascade.   These use additional external libraries and thus must use different builds of GENIE.
 
 h3. INCL++
 
-<pre>
-sed -i -e &#39;s/HAIntranuke2018/HINCLCascadeIntranuke/g&#39; ModelConfiguration.xml
-</pre>
+bc. sed -i -e 's/HAIntranuke2018/HINCLCascadeIntranuke/g' ModelConfiguration.xml
+
 but one needs:
-<pre>
-setup genie v3_04_00d -q e20:prof:+inclxx # "+" is critical for setting this up
+bc. setup genie v3_04_00d -q e20:prof:+inclxx # "+" is critical for setting this up
 setup genie_xsec v3_04_00 -q AR2320k00000:e1000:k250
-</pre>
 
 h3. Geant4 Bertini Cascade
 
-<pre>
-sed -i -e &#39;s/HAIntranuke2018/HG4BertCascIntranuke/g&#39; ModelConfiguration.xml
-</pre>
+bc. sed -i -e 's/HAIntranuke2018/HG4BertCascIntranuke/g' ModelConfiguration.xml
+
 but one needs:
-<pre>
-setup genie v3_04_00d -q e20:prof:+geant4 # "+" is critical for setting this up
+bc. setup genie v3_04_00d -q e20:prof:+geant4 # "+" is critical for setting this up
 setup genie_xsec v3_04_00 -q AR2320l00000:e1000:k250
-</pre>
-
-
-
-
-
